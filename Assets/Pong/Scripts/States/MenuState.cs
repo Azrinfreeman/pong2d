@@ -12,7 +12,7 @@ public class MenuState : _StatesBase
         Managers.Audio.PlayGameMusic();
         Managers.PowUps.canSpawnPowerup = false;
         Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(false);
-
+        Managers.Match.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
         if (Managers.Game.isGameActive)
         {
             Managers.UI.mainMenu.continueButton.SetActive(true);

@@ -53,6 +53,7 @@ public class InGameUI : MonoBehaviour
         Managers.UI.ActivateUI(Menus.MAIN);
         Managers.Game.SetState(typeof(MenuState));
         Managers.Match.SaveMatch();
+        Managers.Match.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
     }
 
     public void SetInfoText(string text, bool isEnabled)
