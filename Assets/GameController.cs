@@ -73,6 +73,11 @@ public class GameController : MonoBehaviour
 
     public void ShowQuestion(int playerInt)
     {
+        StartCoroutine(showQuest(playerInt));
+    }
+
+    IEnumerator showQuest(int playerInt)
+    {
         //Timing.gameObject.SetActive(true);
 
         //if else level
@@ -92,16 +97,6 @@ public class GameController : MonoBehaviour
         Debug.Log(questionTransform);
         questionTransform.text =
             questions + " " + QuestionController.instance.questionsList[answers].name;
-
-        if (
-            !QuestionController
-                .instance.questionsList[answers]
-                .GetComponent<AudioSource>()
-                .isPlaying
-        )
-        {
-            QuestionController.instance.questionsList[answers].GetComponent<AudioSource>().Play();
-        }
 
         //assign buttons in gameobject
 
@@ -207,13 +202,24 @@ public class GameController : MonoBehaviour
                     .sprite;
             }
         }
-
         //play notidication sound
-        /*        if (!GameObject.Find("notification").GetComponent<AudioSource>().isPlaying)
-                {
-                    GameObject.Find("notification").GetComponent<AudioSource>().Play();
-                }
-        */
+        if (!GameObject.Find("notification").GetComponent<AudioSource>().isPlaying)
+        {
+            GameObject.Find("notification").GetComponent<AudioSource>().Play();
+        }
+
+        //play answer sound
+        yield return new WaitForSeconds(1f);
+        if (
+            !QuestionController
+                .instance.questionsList[answers]
+                .GetComponent<AudioSource>()
+                .isPlaying
+        )
+        {
+            QuestionController.instance.questionsList[answers].GetComponent<AudioSource>().Play();
+        }
+
         //activate background and show question also off center;
         // transform.GetChild(0).transform.gameObject.SetActive(true);
         //  transform.GetChild(2).transform.gameObject.SetActive(false);
@@ -234,7 +240,7 @@ public class GameController : MonoBehaviour
             .transform.GetChild(1)
             .transform.GetChild(1)
             .GetComponent<TextMeshProUGUI>()
-            .text = "SALAH!!";
+            .text = "<color=red>SALAH!!</color>";
 
         yield return new WaitForSeconds(1f);
         Managers.Game.SetState(typeof(KickOffState));
@@ -267,7 +273,19 @@ public class GameController : MonoBehaviour
     }
 
     IEnumerator roundCollected()
-    {
+    { //play correct sound
+        if (!GameObject.Find("rewarded").GetComponent<AudioSource>().isPlaying)
+        {
+            GameObject.Find("rewarded").GetComponent<AudioSource>().Play();
+        }
+        transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(1)
+            .GetComponent<TextMeshProUGUI>()
+            .text = "<color=green>BETUL!</color>";
         //collect stars and timer
         /*
                 Debug.Log("stars2");
@@ -304,14 +322,7 @@ public class GameController : MonoBehaviour
         QuestionController.instance.questionsList.RemoveAt(answers);
         Destroy(GameObject.Find("QuestionList").transform.GetChild(answers).gameObject);
         //Destroy(gameObject);
-        transform
-            .GetChild(0)
-            .transform.GetChild(playerInt)
-            .transform.GetChild(0)
-            .transform.GetChild(1)
-            .transform.GetChild(1)
-            .GetComponent<TextMeshProUGUI>()
-            .text = "BETUL!";
+
 
         yield return new WaitForSeconds(1f);
         Managers.Game.SetState(typeof(KickOffState));
