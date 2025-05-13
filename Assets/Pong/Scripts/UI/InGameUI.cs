@@ -28,6 +28,11 @@ public class InGameUI : MonoBehaviour
     public Text textPlayer;
 
     public Text textAi;
+    public Button PlayButton;
+
+    public Transform playerPanel;
+
+    public Transform questionPanel;
 
     void Start()
     {
@@ -53,7 +58,9 @@ public class InGameUI : MonoBehaviour
         Managers.UI.ActivateUI(Menus.MAIN);
         Managers.Game.SetState(typeof(MenuState));
         Managers.Match.SaveMatch();
-        Managers.Match.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
+        PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
+        Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
+        Managers.UI.inGameUI.playerPanel.gameObject.SetActive(false);
     }
 
     public void SetInfoText(string text, bool isEnabled)

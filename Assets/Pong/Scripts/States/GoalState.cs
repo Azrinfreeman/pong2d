@@ -13,6 +13,7 @@ public class GoalState : _StatesBase
         Managers.PowUps.canSpawnPowerup = false;
         Managers.Match.Reset();
         GoalCelebration();
+        Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(false);
     }
 
     public override void OnDeactivate()
@@ -45,8 +46,33 @@ public class GoalState : _StatesBase
             .SetLoops(3)
             .OnComplete(() =>
             {
-                Managers.UI.inGameUI.SetInfoText("", false);
-                Managers.Game.SetState(typeof(KickOffState));
+                Managers.UI.inGameUI.SetInfoText("SOALAN", false);
+                if (Ball.instance.paddle == 1)
+                {
+                    Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
+                    Managers
+                        .UI.inGameUI.questionPanel.transform.GetChild(0)
+                        .transform.GetChild(0)
+                        .transform.gameObject.SetActive(false);
+                    Managers
+                        .UI.inGameUI.questionPanel.transform.GetChild(0)
+                        .transform.GetChild(1)
+                        .transform.gameObject.SetActive(true);
+                }
+                else if (Ball.instance.paddle == 2)
+                {
+                    Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
+                    Managers
+                        .UI.inGameUI.questionPanel.transform.GetChild(0)
+                        .transform.GetChild(0)
+                        .transform.gameObject.SetActive(true);
+                    Managers
+                        .UI.inGameUI.questionPanel.transform.GetChild(0)
+                        .transform.GetChild(1)
+                        .transform.gameObject.SetActive(false);
+                }
+
+                //Managers.Game.SetState(typeof(KickOffState));
             });
     }
 }

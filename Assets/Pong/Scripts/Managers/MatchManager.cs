@@ -20,8 +20,6 @@ public class MatchManager : MonoBehaviour
     public GameObject playerPaddle;
     public SavedGame savedGame;
 
-    public Button PlayButton;
-
     public void Reset()
     {
         ball.ResetBall();

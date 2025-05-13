@@ -10,10 +10,13 @@
 //   *********************************************************************************/
 
 using System.Collections;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public static Ball instance;
+
     public float speed;
     public float speedMultiplier;
     public ParticleSystem particle;
@@ -25,8 +28,11 @@ public class Ball : MonoBehaviour
     [HideInInspector]
     public Paddle lastTouchedPaddle;
 
+    public int paddle;
+
     void Awake()
     {
+        instance = this;
         ballBody = GetComponent<Rigidbody2D>();
         ResetBall();
     }
@@ -54,10 +60,12 @@ public class Ball : MonoBehaviour
 
         if (other.gameObject.name.Equals("BottomWall"))
         {
+            paddle = 2;
             Managers.Score.OnScore(PaddleOwner.PLAYER2);
         }
         else if (other.gameObject.name.Equals("TopWall"))
         {
+            paddle = 1;
             Managers.Score.OnScore(PaddleOwner.PLAYER);
         }
         else if (other.gameObject.CompareTag("PADDLE"))

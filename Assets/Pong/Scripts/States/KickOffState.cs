@@ -18,7 +18,7 @@ public class KickOffState : _StatesBase
 
         countdown = 4;
         Managers.Input.isActive = false;
-        Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(false);
+        Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
 
         if (!Managers.Game.isGameActive)
             Managers.Match.Reset();
@@ -28,9 +28,13 @@ public class KickOffState : _StatesBase
             Managers.Match.ball.ballBody.velocity = Vector2.zero;
         }
         //CountDown();
-        Managers.Match.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
-        Managers.Match.PlayButton.GetComponent<Button>().onClick.RemoveAllListeners();
-        Managers.Match.PlayButton.GetComponent<Button>().onClick.AddListener(() => CountDown());
+        Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
+
+        Managers.UI.inGameUI.playerPanel.gameObject.SetActive(true);
+        Managers.UI.inGameUI.PlayButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        Managers
+            .UI.inGameUI.PlayButton.GetComponent<Button>()
+            .onClick.AddListener(() => CountDown());
     }
 
     public override void OnDeactivate()

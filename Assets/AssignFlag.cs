@@ -14,9 +14,48 @@ public class AssignFlag : MonoBehaviour
         FlagSelect =
             transform.parent.transform.parent.transform.parent.transform.parent.GetComponent<PlayerFlagController>();
 
+        if (FlagSelect.FlagPlayer1)
+        {
+            for (int i = 0; i < FlagController.instance.transform.childCount; i++)
+            {
+                if (
+                    FlagController.instance.transform.GetChild(i).transform.name
+                    == PlayerPrefs.GetString("Player1_FlagName")
+                )
+                {
+                    GameObject
+                        .Find("FlagP1")
+                        .transform.GetChild(0)
+                        .transform.GetChild(0)
+                        .transform.GetComponent<Image>()
+                        .sprite = FlagController
+                        .instance.transform.GetChild(i)
+                        .GetComponent<Image>()
+                        .sprite;
+                }
+            }
+        }
         if (FlagSelect.FlagPlayer2)
         {
             transform.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0.0f, 0f, 0f);
+            for (int i = 0; i < FlagController.instance.transform.childCount; i++)
+            {
+                if (
+                    FlagController.instance.transform.GetChild(i).transform.name
+                    == PlayerPrefs.GetString("Player2_FlagName")
+                )
+                {
+                    GameObject
+                        .Find("FlagP2")
+                        .transform.GetChild(0)
+                        .transform.GetChild(0)
+                        .transform.GetComponent<Image>()
+                        .sprite = FlagController
+                        .instance.transform.GetChild(i)
+                        .GetComponent<Image>()
+                        .sprite;
+                }
+            }
         }
         transform.GetComponent<Button>().onClick.AddListener(() => SetFlag());
     }
@@ -39,6 +78,16 @@ public class AssignFlag : MonoBehaviour
                 .transform.GetChild(0)
                 .GetComponent<TextMeshProUGUI>()
                 .text = transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+
+            PlayerPrefs.SetString(
+                "Player1_FlagName",
+                FlagSelect
+                    .FlagPlayer1.GetChild(0)
+                    .transform.GetChild(1)
+                    .transform.GetChild(0)
+                    .GetComponent<TextMeshProUGUI>()
+                    .text = transform.GetChild(1).GetComponent<TextMeshProUGUI>().text
+            );
         }
         else if (FlagSelect.PlayerFlag.Equals("Player2"))
         {
@@ -53,6 +102,16 @@ public class AssignFlag : MonoBehaviour
                 .transform.GetChild(0)
                 .GetComponent<TextMeshProUGUI>()
                 .text = transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+
+            PlayerPrefs.SetString(
+                "Player2_FlagName",
+                FlagSelect
+                    .FlagPlayer2.GetChild(0)
+                    .transform.GetChild(1)
+                    .transform.GetChild(0)
+                    .GetComponent<TextMeshProUGUI>()
+                    .text = transform.GetChild(1).GetComponent<TextMeshProUGUI>().text
+            );
         }
     }
 }
