@@ -46,7 +46,7 @@ public class GoalState : _StatesBase
             .SetLoops(3)
             .OnComplete(() =>
             {
-                Managers.UI.inGameUI.SetInfoText("SOALAN", false);
+                Managers.UI.inGameUI.SetInfoText("Kickoff", false);
                 if (Ball.instance.paddle == 1)
                 {
                     Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);

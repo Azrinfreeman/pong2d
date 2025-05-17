@@ -17,7 +17,8 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI questionTransform;
     public string questions;
     public int questionCount = 0;
-    public int questionsNum;
+    public int maxQuestionCount;
+    int questionsNum;
     public int answers;
     public int playerInt = 0;
     public Button[] ansButton = new Button[2];
@@ -63,10 +64,30 @@ public class GameController : MonoBehaviour
     {
         if (transform.GetChild(0).transform.GetChild(0).transform.gameObject.activeSelf)
         {
+            playerInt = 0;
+            soundBtn = transform
+                .GetChild(0)
+                .transform.GetChild(0)
+                .transform.GetChild(0)
+                .transform.GetChild(1)
+                .transform.GetChild(0)
+                .transform.GetChild(2)
+                .transform.GetComponent<Button>();
+            ShowQuestion(playerInt);
             Debug.Log("player1 is active");
         }
         else if (transform.GetChild(0).transform.GetChild(1).transform.gameObject.activeSelf)
         {
+            playerInt = 1;
+            soundBtn = transform
+                .GetChild(0)
+                .transform.GetChild(1)
+                .transform.GetChild(0)
+                .transform.GetChild(1)
+                .transform.GetChild(0)
+                .transform.GetChild(2)
+                .transform.GetComponent<Button>();
+            ShowQuestion(playerInt);
             Debug.Log("player2 is active");
         }
     }
@@ -125,9 +146,11 @@ public class GameController : MonoBehaviour
         //choose which button to put answer
         int buttonNum = rnd.Next(2);
         //add function to button
+        ansButton[buttonNum].onClick.RemoveAllListeners();
         ansButton[buttonNum].onClick.AddListener(() => CorrectButtonFunction());
 
         //add play sound button to soundbtn
+        soundBtn.onClick.RemoveAllListeners();
         soundBtn.onClick.AddListener(() => PlayCorrectAnswerSound(answers));
         //add something to button child
         ansButton[buttonNum].GetComponent<Image>().sprite = QuestionController
@@ -194,7 +217,7 @@ public class GameController : MonoBehaviour
 
                     randomAnswer.Add(chooseRandom);
                 }
-
+                ansButton[i].onClick.RemoveAllListeners();
                 ansButton[i].onClick.AddListener(() => buttonFunction());
                 ansButton[i].GetComponent<Image>().sprite = QuestionController
                     .instance.questionsList[chooseRandom]
@@ -230,6 +253,8 @@ public class GameController : MonoBehaviour
 
     IEnumerator incorrectAnswer()
     {
+        //add count to question
+        questionCount++;
         Debug.Log("Incorrect");
         yield return new WaitForSeconds(0.45f);
 
@@ -243,9 +268,25 @@ public class GameController : MonoBehaviour
             .text = "<color=red>SALAH!!</color>";
 
         yield return new WaitForSeconds(1f);
-        Managers.Game.SetState(typeof(KickOffState));
-        transform.gameObject.SetActive(false);
-        Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
+        transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(1)
+            .GetComponent<TextMeshProUGUI>()
+            .text = "<color=red></color>";
+
+        if (questionCount > maxQuestionCount)
+        {
+            Managers.Game.SetState(typeof(KickOffState));
+            transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            ShowQuestion(playerInt);
+        }
     }
 
     public void buttonFunction()
@@ -273,7 +314,10 @@ public class GameController : MonoBehaviour
     }
 
     IEnumerator roundCollected()
-    { //play correct sound
+    {
+        //add count to question
+        questionCount++;
+        //play correct sound
         if (!GameObject.Find("rewarded").GetComponent<AudioSource>().isPlaying)
         {
             GameObject.Find("rewarded").GetComponent<AudioSource>().Play();
@@ -324,10 +368,27 @@ public class GameController : MonoBehaviour
         //Destroy(gameObject);
 
 
+
         yield return new WaitForSeconds(1f);
-        Managers.Game.SetState(typeof(KickOffState));
-        transform.gameObject.SetActive(false);
-        Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
+        //erased text again
+        transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(1)
+            .GetComponent<TextMeshProUGUI>()
+            .text = "<color=green></color>";
+        if (questionCount > maxQuestionCount)
+        {
+            Managers.Game.SetState(typeof(KickOffState));
+            transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            ShowQuestion(playerInt);
+        }
     }
 
     // Update is called once per frame
