@@ -28,7 +28,12 @@ public class GameController : MonoBehaviour
     void Start()
     {
         questionCount = 0;
+        questionsNum = rnd3.Next(0, QuestionController.instance.questionsList.Count);
+        Invoke("startControlling", 0.12f);
+    }
 
+    void startControlling()
+    {
         //Time.timeScale = 1;
         if (transform.GetChild(0).transform.GetChild(0).transform.gameObject.activeSelf)
         {
@@ -62,34 +67,7 @@ public class GameController : MonoBehaviour
 
     void OnEnable()
     {
-        if (transform.GetChild(0).transform.GetChild(0).transform.gameObject.activeSelf)
-        {
-            playerInt = 0;
-            soundBtn = transform
-                .GetChild(0)
-                .transform.GetChild(0)
-                .transform.GetChild(0)
-                .transform.GetChild(1)
-                .transform.GetChild(0)
-                .transform.GetChild(2)
-                .transform.GetComponent<Button>();
-            ShowQuestion(playerInt);
-            Debug.Log("player1 is active");
-        }
-        else if (transform.GetChild(0).transform.GetChild(1).transform.gameObject.activeSelf)
-        {
-            playerInt = 1;
-            soundBtn = transform
-                .GetChild(0)
-                .transform.GetChild(1)
-                .transform.GetChild(0)
-                .transform.GetChild(1)
-                .transform.GetChild(0)
-                .transform.GetChild(2)
-                .transform.GetComponent<Button>();
-            ShowQuestion(playerInt);
-            Debug.Log("player2 is active");
-        }
+        Invoke("startControlling", 0.12f);
     }
 
     public void ShowQuestion(int playerInt)
@@ -99,6 +77,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator showQuest(int playerInt)
     {
+        //EnableAllButtons();
         //Timing.gameObject.SetActive(true);
 
         //if else level
@@ -253,6 +232,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator incorrectAnswer()
     {
+        DisableAllButtons();
         //add count to question
         questionCount++;
         Debug.Log("Incorrect");
@@ -313,8 +293,27 @@ public class GameController : MonoBehaviour
         StartCoroutine(roundCollected());
     }
 
+    void DisableAllButtons()
+    {
+        for (int i = 0; i < ansButton.Length; i++)
+        {
+            ansButton[i].GetComponent<Button>().enabled = false;
+        }
+    }
+
+    void EnableAllButtons()
+    {
+        for (int i = 0; i < ansButton.Length; i++)
+        {
+            ansButton[i].GetComponent<Button>().enabled = true;
+        }
+    }
+
     IEnumerator roundCollected()
     {
+        DisableAllButtons();
+        //disable buttons
+
         //add count to question
         questionCount++;
         //play correct sound
@@ -364,7 +363,12 @@ public class GameController : MonoBehaviour
 
         //destroy and remove the questions from the list
         QuestionController.instance.questionsList.RemoveAt(answers);
-        Destroy(GameObject.Find("QuestionList").transform.GetChild(answers).gameObject);
+        Destroy(
+            GameObject
+                .Find("QuestionList-" + QuestionController.instance.level)
+                .transform.GetChild(answers)
+                .gameObject
+        );
         //Destroy(gameObject);
 
 
