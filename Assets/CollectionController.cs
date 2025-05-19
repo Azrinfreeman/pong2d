@@ -39,13 +39,14 @@ public class CollectionController : MonoBehaviour
 
     public void addStars(int star, int playerInt)
     {
-        stars += star;
+        stars = star;
         if (playerInt == 0)
         {
             int tempStar = PlayerPrefs.GetInt("scorePlayer1");
 
             tempStar += stars;
             PlayerPrefs.SetInt("scorePlayer1", tempStar);
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().score = tempStar;
         }
         else if (playerInt == 1)
         {
@@ -53,6 +54,7 @@ public class CollectionController : MonoBehaviour
             tempStar += stars;
 
             PlayerPrefs.SetInt("scorePlayer2", tempStar);
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().score = tempStar;
         }
     }
 }

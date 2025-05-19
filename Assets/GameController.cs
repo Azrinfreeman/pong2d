@@ -77,7 +77,6 @@ public class GameController : MonoBehaviour
 
     IEnumerator showQuest(int playerInt)
     {
-        //EnableAllButtons();
         //Timing.gameObject.SetActive(true);
 
         //if else level
@@ -120,7 +119,8 @@ public class GameController : MonoBehaviour
             .GetComponent<Button>();
 
         //assign random answer to random buttons
-
+        //enable the component on buttons;
+        EnableAllButtons();
 
         //choose which button to put answer
         int buttonNum = rnd.Next(2);
@@ -211,7 +211,7 @@ public class GameController : MonoBehaviour
         }
 
         //play answer sound
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.1f);
         if (
             !QuestionController
                 .instance.questionsList[answers]
@@ -317,6 +317,10 @@ public class GameController : MonoBehaviour
         //add count to question
         questionCount++;
         //play correct sound
+        if (GameObject.Find("rewarded").GetComponent<AudioSource>().isPlaying)
+        {
+            GameObject.Find("rewarded").GetComponent<AudioSource>().Stop();
+        }
         if (!GameObject.Find("rewarded").GetComponent<AudioSource>().isPlaying)
         {
             GameObject.Find("rewarded").GetComponent<AudioSource>().Play();
@@ -348,7 +352,7 @@ public class GameController : MonoBehaviour
                 }
         */
         //Collect the round count
-        CollectionController.instance.addStars(10, playerInt);
+        CollectionController.instance.addStars(5, playerInt);
         //CollectionController.instance.addRounds(playerInt, 1);
         //roundTransform.GetComponent<Animator>().Play("collected");
 
