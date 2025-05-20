@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour
         questionsNum = rnd3.Next(0, QuestionController.instance.questionsList.Count);
         answers = questionsNum;
 
-        questions = "CARI KATA...";
+        questions = "PILIH HURUF...";
         questionTransform = transform
             .GetChild(0)
             .transform.GetChild(playerInt)
@@ -204,10 +204,13 @@ public class GameController : MonoBehaviour
                     .sprite;
             }
         }
-        //play notidication sound
-        if (!GameObject.Find("notification").GetComponent<AudioSource>().isPlaying)
+        if (questionCount == 0)
         {
-            GameObject.Find("notification").GetComponent<AudioSource>().Play();
+            //play notidication sound
+            if (!GameObject.Find("notification").GetComponent<AudioSource>().isPlaying)
+            {
+                GameObject.Find("notification").GetComponent<AudioSource>().Play();
+            }
         }
 
         //play answer sound

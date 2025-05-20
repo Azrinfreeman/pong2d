@@ -56,5 +56,6 @@ public class CollectionController : MonoBehaviour
             PlayerPrefs.SetInt("scorePlayer2", tempStar);
             ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().score = tempStar;
         }
+        ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().SetText();
     }
 }
