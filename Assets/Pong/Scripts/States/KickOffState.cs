@@ -27,6 +27,9 @@ public class KickOffState : _StatesBase
             _ballVelocity = Managers.Match.ball.ballBody.velocity;
             Managers.Match.ball.ballBody.velocity = Vector2.zero;
         }
+        //level choices
+        Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(true);
+
         //CountDown();
         Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
 

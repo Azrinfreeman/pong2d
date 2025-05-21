@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestionController : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class QuestionController : MonoBehaviour
     void Awake()
     {
         instance = this;
+    }
+
+    public void setlevel(int levels)
+    {
+        level = levels;
         if (level == 1)
         {
             for (int i = 0; i < GameObject.Find("QuestionList-" + level).transform.childCount; i++)
@@ -25,6 +31,7 @@ public class QuestionController : MonoBehaviour
                 questionsList.Add(GameObject.Find("QuestionList-" + level).transform.GetChild(i));
             }
         }
+        Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update

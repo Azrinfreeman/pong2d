@@ -390,7 +390,7 @@ public class GameController : MonoBehaviour
             .transform.GetChild(1)
             .GetComponent<TextMeshProUGUI>()
             .text = "<color=green></color>";
-        if (questionCount > maxQuestionCount)
+        if (questionCount >= maxQuestionCount)
         {
             Managers.Game.SetState(typeof(KickOffState));
             transform.gameObject.SetActive(false);

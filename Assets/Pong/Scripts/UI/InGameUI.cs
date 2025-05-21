@@ -29,6 +29,7 @@ public class InGameUI : MonoBehaviour
 
     public Text textAi;
     public Button PlayButton;
+    public Transform levelChoices;
 
     public Transform playerPanel;
 
