@@ -277,6 +277,8 @@ public class GameController : MonoBehaviour
 
         if (questionCount >= maxQuestionCount)
         {
+            questionCount = 0;
+            questionNumberRNCount = 1;
             Managers.Game.SetState(typeof(KickOffState));
             transform.gameObject.SetActive(false);
             Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
@@ -410,6 +412,8 @@ public class GameController : MonoBehaviour
             .text = "<color=green></color>";
         if (questionCount >= maxQuestionCount)
         {
+            questionCount = 0;
+            questionNumberRNCount = 1;
             Managers.Game.SetState(typeof(KickOffState));
             transform.gameObject.SetActive(false);
             Managers.UI.inGameUI.gameBackButton.gameObject.SetActive(true);
