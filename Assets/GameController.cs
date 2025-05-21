@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
     public List<int> randomAnswer;
 
     public TextMeshProUGUI questionTransform;
+    public TextMeshProUGUI questionNumberRN;
+    int questionNumberRNCount;
     public string questions;
     public int questionCount = 0;
     public int maxQuestionCount;
@@ -27,6 +29,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        questionNumberRNCount = 1;
         questionCount = 0;
         questionsNum = rnd3.Next(0, QuestionController.instance.questionsList.Count);
         Invoke("startControlling", 0.12f);
@@ -80,6 +83,15 @@ public class GameController : MonoBehaviour
         //Timing.gameObject.SetActive(true);
 
         //if else level
+        questionNumberRN = transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .GetChild(0)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(0)
+            .GetComponent<TextMeshProUGUI>();
+        questionNumberRN.text = questionNumberRNCount.ToString();
 
         questionsNum = rnd3.Next(0, QuestionController.instance.questionsList.Count);
         answers = questionsNum;
@@ -235,6 +247,8 @@ public class GameController : MonoBehaviour
 
     IEnumerator incorrectAnswer()
     {
+        questionNumberRNCount++;
+
         DisableAllButtons();
         //add count to question
         questionCount++;
@@ -251,6 +265,7 @@ public class GameController : MonoBehaviour
             .text = "<color=red>SALAH!!</color>";
 
         yield return new WaitForSeconds(1f);
+        questionNumberRN.text = questionNumberRNCount.ToString();
         transform
             .GetChild(0)
             .transform.GetChild(playerInt)
@@ -260,7 +275,7 @@ public class GameController : MonoBehaviour
             .GetComponent<TextMeshProUGUI>()
             .text = "<color=red></color>";
 
-        if (questionCount > maxQuestionCount)
+        if (questionCount >= maxQuestionCount)
         {
             Managers.Game.SetState(typeof(KickOffState));
             transform.gameObject.SetActive(false);
@@ -314,6 +329,8 @@ public class GameController : MonoBehaviour
 
     IEnumerator roundCollected()
     {
+        questionNumberRNCount++;
+
         DisableAllButtons();
         //disable buttons
 
@@ -381,6 +398,7 @@ public class GameController : MonoBehaviour
 
 
         yield return new WaitForSeconds(1f);
+        questionNumberRN.text = questionNumberRNCount.ToString();
         //erased text again
         transform
             .GetChild(0)

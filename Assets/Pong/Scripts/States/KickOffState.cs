@@ -27,17 +27,29 @@ public class KickOffState : _StatesBase
             _ballVelocity = Managers.Match.ball.ballBody.velocity;
             Managers.Match.ball.ballBody.velocity = Vector2.zero;
         }
-        //level choices
-        Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(true);
 
         //CountDown();
-        Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
+
 
         Managers.UI.inGameUI.playerPanel.gameObject.SetActive(true);
+        Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
         Managers.UI.inGameUI.PlayButton.GetComponent<Button>().onClick.RemoveAllListeners();
         Managers
             .UI.inGameUI.PlayButton.GetComponent<Button>()
             .onClick.AddListener(() => CountDown());
+
+        Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
+
+        if (Managers.UI.inGameUI.firstTimePlay)
+        {
+            Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
+        }
+        //level choices
+        if (!Managers.UI.inGameUI.firstTimePlay)
+        {
+            Managers.UI.inGameUI.firstTimePlay = true;
+            Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(true);
+        }
     }
 
     public override void OnDeactivate()

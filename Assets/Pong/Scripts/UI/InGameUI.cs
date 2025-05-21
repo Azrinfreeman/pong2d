@@ -34,6 +34,7 @@ public class InGameUI : MonoBehaviour
     public Transform playerPanel;
 
     public Transform questionPanel;
+    public bool firstTimePlay;
 
     void Start()
     {

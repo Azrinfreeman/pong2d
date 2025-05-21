@@ -7,6 +7,7 @@ public class QuestionController : MonoBehaviour
 {
     public static QuestionController instance;
     public int level;
+
     public List<Transform> questionsList;
 
     void Awake()
@@ -31,7 +32,9 @@ public class QuestionController : MonoBehaviour
                 questionsList.Add(GameObject.Find("QuestionList-" + level).transform.GetChild(i));
             }
         }
+
         Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(false);
+        Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
     }
 
     // Start is called before the first frame update
