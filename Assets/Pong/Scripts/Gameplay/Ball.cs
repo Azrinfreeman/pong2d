@@ -60,13 +60,14 @@ public class Ball : MonoBehaviour
 
         if (other.gameObject.name.Equals("BottomWall"))
         {
-            paddle = 2;
-            Managers.Score.OnScore(PaddleOwner.PLAYER2);
+            paddle = 1;
+            Managers.Score.OnScore(PaddleOwner.PLAYER);
         }
         else if (other.gameObject.name.Equals("TopWall"))
         {
-            paddle = 1;
-            Managers.Score.OnScore(PaddleOwner.PLAYER);
+            Debug.Log("ai score added");
+            paddle = 2;
+            Managers.Score.OnScore(PaddleOwner.PLAYER2);
         }
         else if (other.gameObject.CompareTag("PADDLE"))
         {

@@ -55,6 +55,16 @@ public class MainMenu : PersistentSingleton<MainMenu>
     {
         Managers.Audio.PlayClickSound();
         Managers.Match.ResetSavedGame();
+
+        Managers.Game.SetState(typeof(KickOffState));
+        Managers.UI.ActivateUI(Menus.INGAME);
+    }
+
+    public void NewGameAI()
+    {
+        Managers.Audio.PlayClickSound();
+        Managers.Match.ResetSavedGame();
+        GameObject.Find("Player2").GetComponent<Paddle>().owner = PaddleOwner.AI;
         Managers.Game.SetState(typeof(KickOffState));
         Managers.UI.ActivateUI(Menus.INGAME);
     }

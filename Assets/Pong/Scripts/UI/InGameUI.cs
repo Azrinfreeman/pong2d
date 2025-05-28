@@ -15,6 +15,8 @@ using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
+    public Transform PlayerInputBtn1;
+    public Transform PlayerInputBtn2;
     public Text info;
     public Text score;
     public Button gameBackButton;
@@ -34,7 +36,12 @@ public class InGameUI : MonoBehaviour
     public Transform playerPanel;
 
     public Transform questionPanel;
+    public Transform winnerPanel;
+
+    public Transform stopButton;
     public bool firstTimePlay;
+    public bool isReadyPlayerName1;
+    public bool isReadyPlayerName2;
 
     void Start()
     {
@@ -44,9 +51,9 @@ public class InGameUI : MonoBehaviour
 
     public void UpdateScore()
     {
-        score.text = Managers.Score.playerScore + "-" + Managers.Score.aiScore;
-        textPlayer.text = Managers.Score.aiScore.ToString();
-        textAi.text = Managers.Score.playerScore.ToString();
+        score.text = Managers.Score.aiScore + "-" + Managers.Score.playerScore;
+        textPlayer.text = Managers.Score.playerScore.ToString();
+        textAi.text = Managers.Score.aiScore.ToString();
     }
 
     public void GameInfo(string txt)

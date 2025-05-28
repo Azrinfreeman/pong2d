@@ -9,6 +9,7 @@ public class GoalState : _StatesBase
     public override void OnActivate()
     {
         Debug.Log("<color=green>Goal State</color> OnActive");
+        Managers.UI.inGameUI.stopButton.gameObject.SetActive(false);
         Managers.PowUps.DestroyPowerups();
         Managers.PowUps.canSpawnPowerup = false;
         Managers.Match.Reset();
@@ -47,32 +48,39 @@ public class GoalState : _StatesBase
             .OnComplete(() =>
             {
                 Managers.UI.inGameUI.SetInfoText("Kickoff", false);
-                if (Ball.instance.paddle == 1)
+                if (GameObject.Find("Player2").GetComponent<Paddle>().owner != PaddleOwner.AI)
                 {
-                    Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
-                    Managers
-                        .UI.inGameUI.questionPanel.transform.GetChild(0)
-                        .transform.GetChild(0)
-                        .transform.gameObject.SetActive(false);
-                    Managers
-                        .UI.inGameUI.questionPanel.transform.GetChild(0)
-                        .transform.GetChild(1)
-                        .transform.gameObject.SetActive(true);
+                    if (Ball.instance.paddle == 1)
+                    {
+                        Debug.Log("Paddle 1 is not bot");
+                        Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
+                        Managers
+                            .UI.inGameUI.questionPanel.transform.GetChild(0)
+                            .transform.GetChild(0)
+                            .transform.gameObject.SetActive(true);
+                        Managers
+                            .UI.inGameUI.questionPanel.transform.GetChild(0)
+                            .transform.GetChild(1)
+                            .transform.gameObject.SetActive(false);
+                    }
+                    else if (Ball.instance.paddle == 2)
+                    {
+                        Debug.Log("Paddle 2 is not bot");
+                        Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
+                        Managers
+                            .UI.inGameUI.questionPanel.transform.GetChild(0)
+                            .transform.GetChild(0)
+                            .transform.gameObject.SetActive(false);
+                        Managers
+                            .UI.inGameUI.questionPanel.transform.GetChild(0)
+                            .transform.GetChild(1)
+                            .transform.gameObject.SetActive(true);
+                    }
                 }
-                else if (Ball.instance.paddle == 2)
+                else
                 {
-                    Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
-                    Managers
-                        .UI.inGameUI.questionPanel.transform.GetChild(0)
-                        .transform.GetChild(0)
-                        .transform.gameObject.SetActive(true);
-                    Managers
-                        .UI.inGameUI.questionPanel.transform.GetChild(0)
-                        .transform.GetChild(1)
-                        .transform.gameObject.SetActive(false);
+                    Managers.Game.SetState(typeof(KickOffState));
                 }
-
-                //Managers.Game.SetState(typeof(KickOffState));
             });
     }
 }

@@ -26,6 +26,10 @@ public class ScoreManager : MonoBehaviour
     public void OnScore(PaddleOwner scorer)
     {
         AudioSource audioGoal = GameObject.Find("goal").GetComponent<AudioSource>();
+        if (audioGoal.isPlaying)
+        {
+            audioGoal.Stop();
+        }
         if (!audioGoal.isPlaying)
         {
             audioGoal.Play();

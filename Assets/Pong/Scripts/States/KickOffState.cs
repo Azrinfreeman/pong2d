@@ -48,7 +48,19 @@ public class KickOffState : _StatesBase
         if (!Managers.UI.inGameUI.firstTimePlay)
         {
             Managers.UI.inGameUI.firstTimePlay = true;
-            Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(true);
+            if (Managers.UI.inGameUI.isReadyPlayerName1 && Managers.UI.inGameUI.isReadyPlayerName2)
+            {
+                Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(true);
+            }
+            else
+            {
+                Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(false);
+            }
+        }
+
+        if (Managers.Score.playerScore > 5 || Managers.Score.aiScore > 5)
+        {
+            Managers.UI.inGameUI.stopButton.gameObject.SetActive(true);
         }
     }
 
@@ -80,7 +92,22 @@ public class KickOffState : _StatesBase
             .SetLoops(4)
             .OnStepComplete(() =>
             {
+                if (countdown > 1)
+                {
+                    if (!GameObject.Find("countdown").GetComponent<AudioSource>().isPlaying)
+                    {
+                        GameObject.Find("countdown").GetComponent<AudioSource>().Play();
+                    }
+                }
+                else
+                {
+                    if (!GameObject.Find("goal").GetComponent<AudioSource>().isPlaying)
+                    {
+                        GameObject.Find("goal").GetComponent<AudioSource>().Play();
+                    }
+                }
                 countdown--;
+
                 Managers.Audio.PlayCollisionSound();
                 Managers.UI.inGameUI.SetInfoText(countdown.ToString(), true);
             })

@@ -105,7 +105,7 @@ public class GameController : MonoBehaviour
             .transform.GetChild(0)
             .transform.GetChild(0)
             .GetComponent<TextMeshProUGUI>();
-        Debug.Log(questionTransform);
+        //   Debug.Log(questionTransform);
         questionTransform.text =
             questions + " " + QuestionController.instance.questionsList[answers].name;
 
@@ -185,10 +185,10 @@ public class GameController : MonoBehaviour
                     // check if randomnumbers are duplicated in list
                     for (int l = 0; l < randomAnswer.Count; l++)
                     {
-                        Debug.Log("Check");
+                        //                        Debug.Log("Check");
                         while (randomAnswer[l] == chooseRandom)
                         {
-                            Debug.Log("Duplicated");
+                            //          Debug.Log("Duplicated");
                             //generate new number if chooseRandom already in the list
                             chooseRandom = rnd.Next(
                                 0,
