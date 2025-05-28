@@ -28,8 +28,8 @@ public class MatchManager : MonoBehaviour
         aiPaddle.transform.position = Constants.AI;
         playerPaddle.transform.localScale = Constants.PADDLE_SCALE;
         aiPaddle.transform.localScale = Constants.PADDLE_SCALE;
-        playerPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
-        aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
+        // playerPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
+        ///aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
     }
 
     public void RetrieveSavedMatch()

@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerFlagController : MonoBehaviour
 {
+    public static PlayerFlagController instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     public string PlayerFlag;
 
     public Transform FlagPlayer1;

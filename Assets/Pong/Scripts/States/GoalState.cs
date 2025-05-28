@@ -79,7 +79,24 @@ public class GoalState : _StatesBase
                 }
                 else
                 {
-                    Managers.Game.SetState(typeof(KickOffState));
+                    if (Ball.instance.paddle == 1)
+                    {
+                        Debug.Log("Paddle 1 is not bot");
+                        Managers.UI.inGameUI.questionPanel.transform.gameObject.SetActive(true);
+                        Managers
+                            .UI.inGameUI.questionPanel.transform.GetChild(0)
+                            .transform.GetChild(0)
+                            .transform.gameObject.SetActive(true);
+                        Managers
+                            .UI.inGameUI.questionPanel.transform.GetChild(0)
+                            .transform.GetChild(1)
+                            .transform.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        Managers.Game.SetState(typeof(KickOffState));
+                    }
+                    //
                 }
             });
     }

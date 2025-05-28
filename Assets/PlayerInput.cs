@@ -13,7 +13,13 @@ public class PlayerInput : MonoBehaviour
     public InputField textName;
 
     // Start is called before the first frame update
-    void Start() { }
+    void Start()
+    {
+        if (GameObject.Find("Player2").GetComponent<Paddle>().owner == PaddleOwner.AI)
+        {
+            textNameDisplay.text = "Ali Bot";
+        }
+    }
 
     // Update is called once per frame
     void Update() { }
@@ -23,12 +29,18 @@ public class PlayerInput : MonoBehaviour
         if (!textName.text.Equals(""))
         {
             PlayerPrefs.SetString("player" + (playerInt + 1), textName.text);
+            textNameDisplay.text = textName.text;
             PlayerNameBtn.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
             transform.gameObject.SetActive(false);
 
             if (playerInt == 0)
             {
                 Managers.UI.inGameUI.isReadyPlayerName1 = true;
+                //disable the score if the player is an ai
+                if (GameObject.Find("Player2").GetComponent<Paddle>().owner == PaddleOwner.AI)
+                {
+                    GameObject.Find("ScoreP2").transform.gameObject.SetActive(false);
+                }
             }
             else if (playerInt == 1)
             {
