@@ -10,6 +10,7 @@
 //   *********************************************************************************/
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,7 @@ public class InGameUI : MonoBehaviour
     public Transform winnerPanel;
 
     public Transform stopButton;
+    public List<Transform> fences;
     public bool firstTimePlay;
     public bool isReadyPlayerName1;
     public bool isReadyPlayerName2;

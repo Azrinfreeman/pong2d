@@ -24,6 +24,9 @@ public class QuestionController : MonoBehaviour
             {
                 questionsList.Add(GameObject.Find("QuestionList-" + level).transform.GetChild(i));
             }
+            Managers.UI.inGameUI.fences[0].transform.gameObject.SetActive(true);
+            Managers.UI.inGameUI.fences[1].transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.fences[2].transform.gameObject.SetActive(false);
         }
         else if (level == 2)
         {
@@ -31,6 +34,21 @@ public class QuestionController : MonoBehaviour
             {
                 questionsList.Add(GameObject.Find("QuestionList-" + level).transform.GetChild(i));
             }
+
+            Managers.UI.inGameUI.fences[0].transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.fences[1].transform.gameObject.SetActive(true);
+            Managers.UI.inGameUI.fences[2].transform.gameObject.SetActive(false);
+        }
+        else if (level == 3)
+        {
+            for (int i = 0; i < GameObject.Find("QuestionList-" + level).transform.childCount; i++)
+            {
+                questionsList.Add(GameObject.Find("QuestionList-" + level).transform.GetChild(i));
+            }
+
+            Managers.UI.inGameUI.fences[0].transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.fences[1].transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.fences[2].transform.gameObject.SetActive(true);
         }
 
         Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(false);
