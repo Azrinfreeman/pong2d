@@ -30,7 +30,6 @@ public class KickOffState : _StatesBase
 
         //CountDown();
 
-
         Managers.UI.inGameUI.playerPanel.gameObject.SetActive(true);
         Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
         Managers.UI.inGameUI.PlayButton.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -58,7 +57,7 @@ public class KickOffState : _StatesBase
             }
         }
 
-        if (Managers.Score.playerScore > 5 || Managers.Score.aiScore > 5)
+        if (Managers.Score.totalRounds > 5)
         {
             Managers.UI.inGameUI.stopButton.gameObject.SetActive(true);
         }

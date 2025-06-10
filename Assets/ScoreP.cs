@@ -10,6 +10,8 @@ public class ScoreP : MonoBehaviour
 
     public int score;
 
+    public int currentScore;
+
     public TextMeshProUGUI text;
 
     // Start is called before the first frame update
@@ -32,9 +34,14 @@ public class ScoreP : MonoBehaviour
         SetText();
     }
 
+    public void SetTotal()
+    {
+        score += currentScore;
+    }
+
     public void SetText()
     {
-        text.text = score.ToString();
+        text.text = currentScore.ToString();
     }
 
     // Update is called once per frame

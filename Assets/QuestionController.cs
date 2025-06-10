@@ -50,6 +50,17 @@ public class QuestionController : MonoBehaviour
             Managers.UI.inGameUI.fences[1].transform.gameObject.SetActive(false);
             Managers.UI.inGameUI.fences[2].transform.gameObject.SetActive(true);
         }
+        else if (level == 4)
+        {
+            for (int i = 0; i < GameObject.Find("QuestionList-" + level).transform.childCount; i++)
+            {
+                questionsList.Add(GameObject.Find("QuestionList-" + level).transform.GetChild(i));
+            }
+
+            Managers.UI.inGameUI.fences[0].transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.fences[1].transform.gameObject.SetActive(false);
+            Managers.UI.inGameUI.fences[2].transform.gameObject.SetActive(true);
+        }
 
         Managers.UI.inGameUI.levelChoices.transform.gameObject.SetActive(false);
         Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);

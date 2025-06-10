@@ -22,7 +22,7 @@ public class WinnerController : MonoBehaviour
 
         if (player1 > player2)
         {
-            winnerNameText.text = "Player 1";
+            winnerNameText.text = "Player 1: " + PlayerPrefs.GetString("player1");
             flagPlayer.sprite = GameObject
                 .Find("FlagP1")
                 .transform.GetChild(0)
@@ -32,7 +32,7 @@ public class WinnerController : MonoBehaviour
         }
         else if (player2 > player1)
         {
-            winnerNameText.text = "Player 2";
+            winnerNameText.text = "Player 2: " + PlayerPrefs.GetString("player2");
             flagPlayer.sprite = GameObject
                 .Find("FlagP2")
                 .transform.GetChild(0)

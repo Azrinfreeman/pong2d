@@ -42,20 +42,22 @@ public class CollectionController : MonoBehaviour
         stars = star;
         if (playerInt == 0)
         {
-            int tempStar = PlayerPrefs.GetInt("scorePlayer1");
+            //int tempStar = PlayerPrefs.GetInt("scorePlayer1");
 
-            tempStar += stars;
-            PlayerPrefs.SetInt("scorePlayer1", tempStar);
-            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().score = tempStar;
+            //     tempStar += stars;
+            //    PlayerPrefs.SetInt("scorePlayer1", tempStar);
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore = stars;
         }
         else if (playerInt == 1)
         {
-            int tempStar = PlayerPrefs.GetInt("scorePlayer2");
-            tempStar += stars;
+            //     int tempStar = PlayerPrefs.GetInt("scorePlayer2");
+            //     tempStar += stars;
 
-            PlayerPrefs.SetInt("scorePlayer2", tempStar);
-            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().score = tempStar;
+            //     PlayerPrefs.SetInt("scorePlayer2", tempStar);
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore = stars;
         }
         ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().SetText();
     }
+
+    public void addTotalStars() { }
 }

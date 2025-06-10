@@ -23,8 +23,10 @@ public class GameController : MonoBehaviour
     int questionsNum;
     public int answers;
     public int playerInt = 0;
-    public Button[] ansButton = new Button[2];
+    public Button[] ansButton = new Button[4];
     public Button soundBtn;
+
+    public bool hasTold = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +49,7 @@ public class GameController : MonoBehaviour
                 .transform.GetChild(0)
                 .transform.GetChild(1)
                 .transform.GetChild(0)
-                .transform.GetChild(2)
+                .transform.GetChild(3)
                 .transform.GetComponent<Button>();
             ShowQuestion(playerInt);
             Debug.Log("player1 is active");
@@ -61,7 +63,7 @@ public class GameController : MonoBehaviour
                 .transform.GetChild(0)
                 .transform.GetChild(1)
                 .transform.GetChild(0)
-                .transform.GetChild(2)
+                .transform.GetChild(3)
                 .transform.GetComponent<Button>();
             ShowQuestion(playerInt);
             Debug.Log("player2 is active");
@@ -129,28 +131,75 @@ public class GameController : MonoBehaviour
             .transform.GetChild(1)
             .transform.GetChild(1) //answer btn 2
             .GetComponent<Button>();
+        ansButton[2] = transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(0)
+            .transform.GetChild(2)
+            .transform.GetChild(0) //answer btn 3
+            .GetComponent<Button>();
+        ansButton[3] = transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(0)
+            .transform.GetChild(2)
+            .transform.GetChild(1) //answer btn 4
+            .GetComponent<Button>();
 
         //assign random answer to random buttons
         //enable the component on buttons;
         EnableAllButtons();
+        int buttonNum;
+        if (QuestionController.instance.level < 4)
+        {
+            //choose which button to put answer
+            buttonNum = rnd.Next(2);
+            //add function to button
+            ansButton[buttonNum].onClick.RemoveAllListeners();
+            ansButton[buttonNum].onClick.AddListener(() => CorrectButtonFunction());
 
-        //choose which button to put answer
-        int buttonNum = rnd.Next(2);
-        //add function to button
-        ansButton[buttonNum].onClick.RemoveAllListeners();
-        ansButton[buttonNum].onClick.AddListener(() => CorrectButtonFunction());
+            //add play sound button to soundbtn
+            soundBtn.onClick.RemoveAllListeners();
+            soundBtn.onClick.AddListener(() => PlayCorrectAnswerSound(answers));
+            //add something to button child
+            ansButton[buttonNum].GetComponent<Image>().sprite = QuestionController
+                .instance.questionsList[answers]
+                .GetComponent<Image>()
+                .sprite;
+        }
+        else
+        {
+            //choose which button to put answer
+            buttonNum = rnd.Next(4);
+            //add function to button
+            ansButton[buttonNum].onClick.RemoveAllListeners();
+            ansButton[buttonNum].onClick.AddListener(() => CorrectButtonFunction());
 
-        //add play sound button to soundbtn
-        soundBtn.onClick.RemoveAllListeners();
-        soundBtn.onClick.AddListener(() => PlayCorrectAnswerSound(answers));
-        //add something to button child
-        ansButton[buttonNum].GetComponent<Image>().sprite = QuestionController
-            .instance.questionsList[answers]
-            .GetComponent<Image>()
-            .sprite;
+            //add play sound button to soundbtn
+            soundBtn.onClick.RemoveAllListeners();
+            soundBtn.onClick.AddListener(() => PlayCorrectAnswerSound(answers));
+            //add something to button child
+            ansButton[buttonNum].GetComponent<Image>().sprite = QuestionController
+                .instance.questionsList[answers]
+                .GetComponent<Image>()
+                .sprite;
+        }
 
         int length;
-        length = 2;
+        if (QuestionController.instance.level < 4)
+        {
+            length = 2;
+            ansButton[2].gameObject.transform.parent.transform.gameObject.SetActive(false);
+        }
+        else
+        {
+            length = 4;
+        }
+
         for (int i = 0; i < length; i++)
         {
             if (i != buttonNum)
@@ -224,9 +273,23 @@ public class GameController : MonoBehaviour
                 GameObject.Find("notification").GetComponent<AudioSource>().Play();
             }
         }
+        if (!hasTold)
+        { //play answer sound
+            yield return new WaitForSeconds(1.1f);
+            if (!GameObject.Find("pilihyangbetul").GetComponent<AudioSource>().isPlaying)
+            {
+                GameObject.Find("pilihyangbetul").GetComponent<AudioSource>().Play();
+            }
+            hasTold = true;
+            yield return new WaitForSeconds(1.8f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.6f);
+        }
 
         //play answer sound
-        yield return new WaitForSeconds(1.1f);
+
         if (
             !QuestionController
                 .instance.questionsList[answers]
@@ -323,6 +386,7 @@ public class GameController : MonoBehaviour
 
     void EnableAllButtons()
     {
+        Debug.Log(ansButton.Length);
         for (int i = 0; i < ansButton.Length; i++)
         {
             ansButton[i].GetComponent<Button>().enabled = true;
@@ -397,8 +461,6 @@ public class GameController : MonoBehaviour
         );
         //Destroy(gameObject);
 
-
-
         yield return new WaitForSeconds(1f);
         questionNumberRN.text = questionNumberRNCount.ToString();
         //erased text again
@@ -413,6 +475,7 @@ public class GameController : MonoBehaviour
         if (questionCount >= maxQuestionCount)
         {
             questionCount = 0;
+            hasTold = false;
             questionNumberRNCount = 1;
             Managers.Game.SetState(typeof(KickOffState));
             transform.gameObject.SetActive(false);

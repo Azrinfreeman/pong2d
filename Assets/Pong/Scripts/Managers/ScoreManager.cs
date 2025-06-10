@@ -14,6 +14,7 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public int totalRounds;
     public int playerScore;
     public int aiScore;
     public int scoreLimit;
@@ -25,6 +26,7 @@ public class ScoreManager : MonoBehaviour
 
     public void OnScore(PaddleOwner scorer)
     {
+        totalRounds++;
         AudioSource audioGoal = GameObject.Find("goal").GetComponent<AudioSource>();
         if (audioGoal.isPlaying)
         {
