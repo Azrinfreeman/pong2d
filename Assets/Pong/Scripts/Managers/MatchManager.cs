@@ -20,6 +20,8 @@ public class MatchManager : MonoBehaviour
     public GameObject playerPaddle;
     public SavedGame savedGame;
 
+    public bool isAiMatch;
+
     public void Reset()
     {
         ball.ResetBall();
@@ -28,8 +30,15 @@ public class MatchManager : MonoBehaviour
         aiPaddle.transform.position = Constants.AI;
         playerPaddle.transform.localScale = Constants.PADDLE_SCALE;
         aiPaddle.transform.localScale = Constants.PADDLE_SCALE;
-        // playerPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
-        ///aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
+        playerPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
+        if (isAiMatch)
+        {
+            aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED_FOR_AI;
+        }
+        else
+        {
+            aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
+        }
     }
 
     public void RetrieveSavedMatch()

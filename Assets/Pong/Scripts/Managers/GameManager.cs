@@ -19,7 +19,9 @@ public static class Constants
     public static readonly Vector2 PLAYER = new Vector2(0, -4f);
     public static readonly Vector2 AI = new Vector2(0, 4f);
     public static readonly Vector2 PADDLE_SCALE = new Vector2(0.7f, 0.6f);
-    //public static readonly float PADDLE_SPEED = 10f;
+    public static readonly float PADDLE_SPEED = 10f;
+
+    public static readonly float PADDLE_SPEED_FOR_AI = 1;
 }
 
 public class GameManager : MonoBehaviour

@@ -12,6 +12,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
@@ -64,14 +65,16 @@ public class InGameUI : MonoBehaviour
     }
 
     public void GameBackButtonClicked()
-    {
+    { /*
         Managers.Audio.PlayClickSound();
         Managers.UI.ActivateUI(Menus.MAIN);
         Managers.Game.SetState(typeof(MenuState));
-        Managers.Match.SaveMatch();
+        //Managers.Match.SaveMatch();
         PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
         Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
         Managers.UI.inGameUI.playerPanel.gameObject.SetActive(false);
+        */
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void SetInfoText(string text, bool isEnabled)

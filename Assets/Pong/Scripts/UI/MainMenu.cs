@@ -53,6 +53,7 @@ public class MainMenu : PersistentSingleton<MainMenu>
 
     public void NewGame()
     {
+        Managers.Match.isAiMatch = false;
         Managers.Audio.PlayClickSound();
         Managers.Match.ResetSavedGame();
 
@@ -62,14 +63,15 @@ public class MainMenu : PersistentSingleton<MainMenu>
 
     public void NewGameAI()
     {
+        Managers.Match.isAiMatch = true;
         Managers.Audio.PlayClickSound();
         Managers.Match.ResetSavedGame();
         Managers.UI.inGameUI.isReadyPlayerName2 = true;
         PlayerPrefs.SetString("player2", "Ali Bot");
         //adjust speed
+
         GameObject.Find("Player2").GetComponent<Paddle>().speed = 1f;
         //adjust flag button to not able to click
-
 
         Managers.UI.inGameUI.PlayerInputBtn2.gameObject.SetActive(false);
         GameObject.Find("Player2").GetComponent<Paddle>().owner = PaddleOwner.AI;

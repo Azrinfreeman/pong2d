@@ -95,6 +95,7 @@ public class GoalState : _StatesBase
                     else
                     {
                         Managers.Game.SetState(typeof(KickOffState));
+                        GameObject.Find("Player2").GetComponent<Paddle>().speed = 1f;
                     }
                     //
                 }

@@ -16,6 +16,8 @@ public class GameOverState : _StatesBase
              true
          );
          */
+        CollectionController.instance.addTotalStars(0);
+        CollectionController.instance.addTotalStars(1);
         Managers.Match.Reset();
         if (Managers.Score.Winner == PaddleOwner.AI)
             Managers.Audio.PlayLoseSound();

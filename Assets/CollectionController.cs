@@ -46,7 +46,7 @@ public class CollectionController : MonoBehaviour
 
             //     tempStar += stars;
             //    PlayerPrefs.SetInt("scorePlayer1", tempStar);
-            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore = stars;
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore += stars;
         }
         else if (playerInt == 1)
         {
@@ -54,10 +54,24 @@ public class CollectionController : MonoBehaviour
             //     tempStar += stars;
 
             //     PlayerPrefs.SetInt("scorePlayer2", tempStar);
-            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore = stars;
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore += stars;
         }
         ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().SetText();
     }
 
-    public void addTotalStars() { }
+    public void addTotalStars(int playerInt)
+    {
+        int fullTotalStars =
+            ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().score
+            + ScoreController.instance.ScoreP[playerInt].GetComponent<ScoreP>().currentScore;
+
+        if (playerInt == 0)
+        {
+            PlayerPrefs.SetInt("scorePlayer1", fullTotalStars);
+        }
+        else if (playerInt == 1)
+        {
+            PlayerPrefs.SetInt("scorePlayer2", fullTotalStars);
+        }
+    }
 }
