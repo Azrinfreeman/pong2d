@@ -17,7 +17,11 @@ public class PlayerInput : MonoBehaviour
     {
         if (GameObject.Find("Player2").GetComponent<Paddle>().owner == PaddleOwner.AI)
         {
-            textNameDisplay.text = "Ali Bot";
+            GameObject
+                .Find("PlayerName2")
+                .transform.GetChild(0)
+                .GetComponent<TextMeshProUGUI>()
+                .text = "Ali Bot";
         }
     }
 

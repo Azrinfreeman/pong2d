@@ -74,6 +74,7 @@ public class InGameUI : MonoBehaviour
         Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(false);
         Managers.UI.inGameUI.playerPanel.gameObject.SetActive(false);
         */
+        Destroy(GameObject.Find("Managers"));
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

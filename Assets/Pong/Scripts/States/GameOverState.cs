@@ -41,6 +41,7 @@ public class GameOverState : _StatesBase
     {
         Managers.UI.inGameUI.winnerPanel.gameObject.SetActive(false);
         Managers.Game.SetState(typeof(MenuState));
+        Destroy(GameObject.Find("Managers"));
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

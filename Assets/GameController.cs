@@ -318,6 +318,10 @@ public class GameController : MonoBehaviour
         Debug.Log("Incorrect");
         yield return new WaitForSeconds(0.45f);
 
+        if (!GameObject.Find("wrong").GetComponent<AudioSource>().isPlaying)
+        {
+            GameObject.Find("wrong").GetComponent<AudioSource>().Play();
+        }
         transform
             .GetChild(0)
             .transform.GetChild(playerInt)

@@ -32,6 +32,13 @@ public class AssignFlag : MonoBehaviour
                         .instance.transform.GetChild(i)
                         .GetComponent<Image>()
                         .sprite;
+                    GameObject
+                        .Find("FlagP1")
+                        .transform.GetChild(0)
+                        .transform.GetChild(1)
+                        .transform.GetChild(0)
+                        .transform.GetComponent<TextMeshProUGUI>()
+                        .text = FlagController.instance.transform.GetChild(i).transform.name;
                 }
             }
         }
@@ -54,6 +61,13 @@ public class AssignFlag : MonoBehaviour
                         .instance.transform.GetChild(i)
                         .GetComponent<Image>()
                         .sprite;
+                    GameObject
+                        .Find("FlagP2")
+                        .transform.GetChild(0)
+                        .transform.GetChild(1)
+                        .transform.GetChild(0)
+                        .transform.GetComponent<TextMeshProUGUI>()
+                        .text = FlagController.instance.transform.GetChild(i).transform.name;
                 }
             }
         }
