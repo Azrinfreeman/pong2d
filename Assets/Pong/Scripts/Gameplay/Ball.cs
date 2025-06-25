@@ -52,6 +52,66 @@ public class Ball : MonoBehaviour
         }
     }
 
+    IEnumerator blinking()
+    {
+        if (paddle == 1)
+        {
+            yield return new WaitForSeconds(0.5f);
+            AlarmController alarm = GameObject
+                .Find("goalUp")
+                .transform.GetChild(1)
+                .GetComponent<AlarmController>();
+
+            bool toggle = false;
+            for (int i = 0; i < 6; i++)
+            {
+                if (!toggle)
+                {
+                    alarm.alarms[0].gameObject.SetActive(false);
+                    alarm.alarms[1].gameObject.SetActive(true);
+                    toggle = true;
+                }
+                else
+                {
+                    alarm.alarms[0].gameObject.SetActive(true);
+                    alarm.alarms[1].gameObject.SetActive(false);
+                    toggle = false;
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+            Debug.Log("down");
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.5f);
+            AlarmController alarm = GameObject
+                .Find("goalDown")
+                .transform.GetChild(1)
+                .GetComponent<AlarmController>();
+            bool toggle = false;
+            for (int i = 0; i < 6; i++)
+            {
+                if (!toggle)
+                {
+                    alarm.alarms[0].gameObject.SetActive(false);
+                    alarm.alarms[1].gameObject.SetActive(true);
+                    toggle = true;
+                }
+                else
+                {
+                    alarm.alarms[0].gameObject.SetActive(true);
+                    alarm.alarms[1].gameObject.SetActive(false);
+                    toggle = false;
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            Debug.Log("up");
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D other)
     {
         hitParticle.Play();
@@ -62,12 +122,14 @@ public class Ball : MonoBehaviour
         {
             paddle = 1;
             Managers.Score.OnScore(PaddleOwner.PLAYER);
+            StartCoroutine(blinking());
         }
         else if (other.gameObject.name.Equals("TopWall"))
         {
             Debug.Log("ai score added");
             paddle = 2;
             Managers.Score.OnScore(PaddleOwner.PLAYER2);
+            StartCoroutine(blinking());
         }
         else if (other.gameObject.CompareTag("PADDLE"))
         {

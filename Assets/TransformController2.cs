@@ -62,7 +62,7 @@ public class TransformController2 : MonoBehaviour
 
         contentHeight.GetComponent<RectTransform>().sizeDelta = new Vector2(
             800,
-            150 * listClones.Count
+            250 * listClones.Count
         );
     }
 
@@ -98,6 +98,44 @@ public class TransformController2 : MonoBehaviour
         {
             AddPrefabRanking();
         }
+    }
+
+    IEnumerator refresh()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        for (int i = 0; i < listClones.Count; i++)
+        {
+            //            Debug.Log("wr");
+            Destroy(listClones[i].gameObject);
+        }
+        listClones.Clear();
+        children = 0;
+        contentHeight = transform;
+
+        children = listClones.Count;
+
+        contentHeight.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            800,
+            250 * listClones.Count
+        );
+        yield return new WaitForSeconds(0.3f);
+
+        if (!isRank)
+        {
+            AddPrefab();
+        }
+        else
+        {
+            AddPrefabRanking();
+        }
+
+        GetComponent<VerticalLayoutGroup>().spacing = 50;
+    }
+
+    public void RefreshItem()
+    {
+        StartCoroutine(refresh());
     }
 
     public void AddPrefabRanking()
@@ -233,19 +271,35 @@ public class TransformController2 : MonoBehaviour
                 listClones.Add(content);
             }
         }
+        GetComponent<VerticalLayoutGroup>().enabled = true;
     }
 
-    public void ClearChildrenAndDismiss()
+    IEnumerator clearChildrenAndDismiss()
     {
+        yield return new WaitForSeconds(0.3f);
         for (int i = 0; i < listClones.Count; i++)
         {
             //            Debug.Log("wr");
             Destroy(listClones[i].gameObject);
         }
         listClones.Clear();
-        transform
-            .parent.transform.parent.transform.parent.GetComponent<Animator>()
-            .Play("dismissPlayerSelect");
+        if (GameObject.Find("PlayerInput1") || GameObject.Find("PlayerInput2"))
+        {
+            transform
+                .parent.transform.parent.transform.parent.transform.parent.GetComponent<Animator>()
+                .Play("dismiss");
+        }
+        else
+        {
+            transform
+                .parent.transform.parent.transform.parent.GetComponent<Animator>()
+                .Play("dismissPlayerSelect");
+        }
+    }
+
+    public void ClearChildrenAndDismiss()
+    {
+        StartCoroutine(clearChildrenAndDismiss());
     }
 
     public void DismissPlayerSelect()

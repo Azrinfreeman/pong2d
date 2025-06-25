@@ -12,6 +12,14 @@ public class PlayerInputController : MonoBehaviour
 
     public Button btnSubmit;
 
+    public List<TransformController2> transformController2;
+
+    public void RefreshBothItems()
+    {
+        transformController2[0].RefreshItem();
+        transformController2[1].RefreshItem();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,6 +110,7 @@ public class PlayerInputController : MonoBehaviour
         if (!String.IsNullOrEmpty(textInput.text))
         {
             StartCoroutine(submit());
+            RefreshBothItems();
         }
         else
         {

@@ -98,8 +98,16 @@ public class MainMenu : PersistentSingleton<MainMenu>
         menuButtons.SetActive(false);
     }
 
+    IEnumerator quit()
+    {
+        transform.GetComponent<Animator>().Play("exitMainMenu");
+        yield return new WaitForSeconds(1.1f);
+
+        Application.Quit();
+    }
+
     public void QuitApp()
     {
-        Application.Quit();
+        StartCoroutine(quit());
     }
 }

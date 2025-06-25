@@ -281,7 +281,7 @@ public class GameController : MonoBehaviour
                 GameObject.Find("pilihyangbetul").GetComponent<AudioSource>().Play();
             }
             hasTold = true;
-            yield return new WaitForSeconds(1.8f);
+            yield return new WaitForSeconds(2.2f);
         }
         else
         {

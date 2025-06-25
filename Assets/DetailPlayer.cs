@@ -87,7 +87,19 @@ public class DetailPlayer : MonoBehaviour
                     button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "PILIH";
                     button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color =
                         Color.yellow;
+
                     button.onClick.AddListener(() => PilihPlayer());
+                    if (PlayerNameController.instance.names[0].text.Equals(names.text))
+                    {
+                        button.gameObject.SetActive(false);
+                        Debug.Log("sama");
+                    }
+
+                    if (PlayerNameController.instance.names[1].text.Equals(names.text))
+                    {
+                        button.gameObject.SetActive(false);
+                        Debug.Log("sama");
+                    }
                 }
             }
             else
@@ -116,7 +128,20 @@ public class DetailPlayer : MonoBehaviour
                     button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "PILIH";
                     button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color =
                         Color.yellow;
+
                     button.onClick.AddListener(() => PilihPlayer());
+                    if (PlayerNameController.instance.names[0].text.Equals(names.text))
+                    {
+                        button.gameObject.SetActive(false);
+
+                        Debug.Log("sama");
+                    }
+
+                    if (PlayerNameController.instance.names[1].text.Equals(names.text))
+                    {
+                        button.gameObject.SetActive(false);
+                        Debug.Log("sama");
+                    }
                 }
                 /*
                 button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "TUKAR";
@@ -144,9 +169,9 @@ public class DetailPlayer : MonoBehaviour
             names.text
         );
         transformController.playerInput.textNameDisplay.text = names.text;
-
+        PlayerNameController.instance.names[transformController.playerInput.playerInt].text =
+            names.text;
         /*PlayerNameBtn.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);*/
-        transformController.playerInput.transform.gameObject.SetActive(false);
 
         if (transformController.playerInput.playerInt == 0)
         {
@@ -168,6 +193,44 @@ public class DetailPlayer : MonoBehaviour
             Managers.UI.inGameUI.PlayerInputBtn1.transform.gameObject.SetActive(false);
             Managers.UI.inGameUI.PlayerInputBtn2.transform.gameObject.SetActive(false);
         }
+
+        if (transformController.playerInput.playerInt == 0)
+        {
+            if (
+                PlayerNameController
+                    .instance.transformController[1]
+                    .GetComponent<TransformController2>()
+                    .playerInput.gameObject.activeSelf
+            )
+            {
+                PlayerNameController
+                    .instance.transformController[1]
+                    .GetComponent<TransformController2>()
+                    .RefreshItem();
+            }
+            Debug.Log("refresh item0000");
+            transformController.ClearChildrenAndDismiss();
+        }
+        else
+        {
+            if (
+                PlayerNameController
+                    .instance.transformController[0]
+                    .GetComponent<TransformController2>()
+                    .playerInput.gameObject.activeSelf
+            )
+            {
+                PlayerNameController
+                    .instance.transformController[0]
+                    .GetComponent<TransformController2>()
+                    .RefreshItem();
+            }
+
+            Debug.Log("refresh item111");
+            transformController.ClearChildrenAndDismiss();
+        }
+
+        //transformController.playerInput.transform.gameObject.SetActive(false);
     }
 
     public void DisplayDelete()

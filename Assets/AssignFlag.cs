@@ -11,9 +11,9 @@ public class AssignFlag : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FlagSelect =
+        /*FlagSelect =
             transform.parent.transform.parent.transform.parent.transform.parent.GetComponent<PlayerFlagController>();
-
+*/
         if (FlagSelect.FlagPlayer1)
         {
             for (int i = 0; i < FlagController.instance.transform.childCount; i++)
