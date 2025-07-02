@@ -50,42 +50,6 @@ public class PlayerDeleteController : MonoBehaviour
                 string str = www.downloadHandler.text.Trim();
                 if (str.Equals("Player Deleted"))
                 {
-                    /*
-                    PlayerPrefs.DeleteKey(
-                        "RoundsCollected_" + PlayerPrefs.GetInt("CurrentPlayerNo_")
-                    );
-                    PlayerPrefs.DeleteKey(
-                        "StarsCollected_" + PlayerPrefs.GetInt("CurrentPlayerNo_")
-                    );
-                    PlayerPrefs.DeleteKey("Player_" + PlayerPrefs.GetInt("CurrentPlayerNo_"));
-                    PlayerPrefs.SetInt("PlayerTotal", PlayerPrefs.GetInt("PlayerTotal") - 1);
-
-                    int i = 0;
-                    int l = 0;
-                    while (i <= 1000)
-                    {
-                        if (!PlayerPrefs.GetString("Player_" + l).IsUnityNull())
-                        {
-                            Debug.Log(PlayerPrefs.GetString("Player_" + l));
-                            PlayerPrefs.SetInt("CurrentPlayerNo_", l);
-                            PlayerPrefs.SetString(
-                                "CurrentPlayer_",
-                                PlayerPrefs.GetString("Player_" + l)
-                            );
-                            i = 1000;
-                        }
-                        else
-                        {
-                            Debug.Log(PlayerPrefs.GetString("Player_" + l));
-                            l++;
-                        }
-
-                        i++;
-                    }
-
-                    GetComponent<Animator>().Play("dismiss");
-                    */
-
                     for (int a = 0; a < transformController.userCollection.Count; a++)
                     {
                         if (
@@ -112,20 +76,23 @@ public class PlayerDeleteController : MonoBehaviour
                     PlayerPrefs.SetInt("PlayerTotal", PlayerPrefs.GetInt("PlayerTotal") - 1);
 
                     //set new player;
+                    if (transformController.userCollection.Count > 0)
+                    {
+                        PlayerPrefs.SetString(
+                            "CurrentPlayer_",
+                            PlayerPrefs.GetString(transformController.userCollection[0])
+                        );
 
-                    PlayerPrefs.SetString(
-                        "CurrentPlayer_",
-                        PlayerPrefs.GetString(transformController.userCollection[0])
-                    );
-                    string tempNom = transformController.userCollection[0];
-                    string nom = tempNom.Substring(tempNom.Length - 1);
-                    PlayerPrefs.SetInt("CurrentPlayerNo_", Int32.Parse(nom));
-                    //CurrentPlayerName.instance.ApplyName();
-                    ///
+                        string tempNom = transformController.userCollection[0];
+                        string nom = tempNom.Substring(tempNom.Length - 1);
+                        PlayerPrefs.SetInt("CurrentPlayerNo_", Int32.Parse(nom));
+                        //CurrentPlayerName.instance.ApplyName();
+                        ///
+                    }
                     GetComponent<Animator>().Play("dismiss");
                     GameObject
                         .Find("PlayerSelect")
-                        .transform.GetChild(0)
+                        .transform.GetChild(1)
                         .transform.GetChild(1)
                         .transform.GetChild(0)
                         .GetComponent<TransformController2>()

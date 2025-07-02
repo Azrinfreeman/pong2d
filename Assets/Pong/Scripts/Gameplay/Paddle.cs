@@ -94,15 +94,209 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 TouchChecker.instance.player2Turn = 2;
             }
         }
+
+        if (TouchChecker.instance.touchSwitch)
+        {
+            TouchChecker.instance.touchSwitch = false;
+            if (TouchChecker.instance.player1Turn == 1 && TouchChecker.instance.player2Turn == 2)
+            {
+                Debug.Log("reset touch");
+                TouchChecker.instance.player1Turn = 2;
+                TouchChecker.instance.player2Turn = 1;
+            }
+            else if (
+                TouchChecker.instance.player1Turn == 2
+                && TouchChecker.instance.player2Turn == 1
+            )
+            {
+                Debug.Log("reset touch");
+                TouchChecker.instance.player1Turn = 1;
+                TouchChecker.instance.player2Turn = 2;
+            }
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
+    { //stop touching
+        // 1 dan 2
+        if (Input.touchCount == 1)
+        {
+            if (owner == PaddleOwner.PLAYER)
+            {
+                Debug.Log("Player1Up");
+                currentTouchGameObject = "";
+                isClick = false;
+
+                TouchChecker.instance.isPlayer1 = false;
+                if (
+                    TouchChecker.instance.player1Turn == 0
+                    && TouchChecker.instance.player2Turn == 0
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (
+                    TouchChecker.instance.player1Turn == 1
+                    && TouchChecker.instance.player2Turn == 0
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (
+                    TouchChecker.instance.player1Turn == 0
+                    && TouchChecker.instance.player2Turn == 1
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (
+                    TouchChecker.instance.player1Turn == 1
+                    && TouchChecker.instance.player2Turn == 2
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (
+                    TouchChecker.instance.player1Turn == 2
+                    && TouchChecker.instance.player2Turn == 1
+                )
+                {
+                    Debug.Log("p2 = 1, p1 =2 fix");
+                    TouchChecker.instance.player1Turn = 1;
+                    TouchChecker.instance.player2Turn = 2;
+                }
+                else if (TouchChecker.instance.player1Turn == 1)
+                {
+                    Debug.Log("player 2 untouch");
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (TouchChecker.instance.player2Turn == 1)
+                {
+                    Debug.Log("player 1 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                }
+            }
+
+            if (owner == PaddleOwner.PLAYER2)
+            {
+                Debug.Log("player2Up");
+                TouchChecker.instance.isPlayer2 = false;
+                if (
+                    TouchChecker.instance.player1Turn == 0
+                    && TouchChecker.instance.player2Turn == 1
+                )
+                {
+                    Debug.Log("p1 = 0, p2 =1");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (
+                    TouchChecker.instance.player1Turn == 2
+                    && TouchChecker.instance.player2Turn == 1
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (
+                    TouchChecker.instance.player1Turn == 1
+                    && TouchChecker.instance.player2Turn == 2
+                )
+                {
+                    Debug.Log("p1 = 1, p2 = 2");
+                    TouchChecker.instance.player1Turn = 2;
+                    TouchChecker.instance.player2Turn = 1;
+                }
+                else if (TouchChecker.instance.player1Turn == 1)
+                {
+                    Debug.Log("player 2 untouch");
+                    TouchChecker.instance.player2Turn = 0;
+                }
+                else if (TouchChecker.instance.player2Turn == 1)
+                {
+                    Debug.Log("player 1 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                }
+            }
+        }
+        else if (Input.touchCount == 2)
+        {
+            Debug.Log("touch 2 gix");
+            if (owner == PaddleOwner.PLAYER)
+            {
+                if (
+                    TouchChecker.instance.player1Turn == 1
+                    && TouchChecker.instance.player2Turn == 2
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 2;
+                    TouchChecker.instance.player2Turn = 1;
+                    TouchChecker.instance.touchSwitch = true;
+                }
+            }
+
+            if (owner == PaddleOwner.PLAYER2)
+            {
+                if (
+                    TouchChecker.instance.player1Turn == 2
+                    && TouchChecker.instance.player2Turn == 1
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 1;
+                    TouchChecker.instance.player2Turn = 2;
+                    TouchChecker.instance.touchSwitch = true;
+                }
+            }
+        }
+        else if (Input.touchCount == 0)
+        {
+            Debug.Log("touch 0 gix");
+            if (owner == PaddleOwner.PLAYER)
+            {
+                if (
+                    TouchChecker.instance.player1Turn == 1
+                    && TouchChecker.instance.player2Turn == 2
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+            }
+
+            if (owner == PaddleOwner.PLAYER2)
+            {
+                if (
+                    TouchChecker.instance.player1Turn == 2
+                    && TouchChecker.instance.player2Turn == 1
+                )
+                {
+                    Debug.Log("1 and 2 untouch");
+                    TouchChecker.instance.player1Turn = 0;
+                    TouchChecker.instance.player2Turn = 0;
+                }
+            }
+        }
+    }
+
+    public void simpoleControl()
     {
         currentTouchGameObject = "";
         isClick = false;
         if (owner == PaddleOwner.PLAYER)
         {
-            Debug.Log("paddleDown");
+            Debug.Log("paddleUp");
             TouchChecker.instance.isPlayer1 = false;
             if (TouchChecker.instance.player1Turn > 0 && TouchChecker.instance.player2Turn > 0)
             {
@@ -116,7 +310,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         if (owner == PaddleOwner.PLAYER2)
         {
-            Debug.Log("paddleDown2");
+            Debug.Log("paddleUp2");
             TouchChecker.instance.isPlayer2 = false;
             if (TouchChecker.instance.player1Turn > 0 && TouchChecker.instance.player2Turn > 0)
             {
@@ -142,10 +336,10 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 Debug.Log(hit.transform.gameObject.name);
             }
         }
-        p1.text = TouchChecker.instance.player1Turn.ToString();
-        p2.text = TouchChecker.instance.player2Turn.ToString();
+        // p1.text = TouchChecker.instance.player1Turn.ToString();
+        //p2.text = TouchChecker.instance.player2Turn.ToString();
         //countTouch.text = Input.touchCount.ToString();
-        countTouch.text = Input.touchCount.ToString();
+        // countTouch.text = Input.touchCount.ToString();
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began) { }
@@ -231,7 +425,28 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             transform.position = curPosition;
         }
         */
-        if (TouchChecker.instance.player1Turn == 1)
+        if (TouchChecker.instance.touchSwitch)
+        {
+            Debug.Log("touchswitch draag input");
+            if (TouchChecker.instance.player1Turn == 1 && TouchChecker.instance.player1Turn == 1)
+            {
+                if (TouchChecker.instance.isPlayer1)
+                {
+                    Vector3 curScreenPoint = new Vector3(
+                        Input.GetTouch(0).position.x,
+                        Input.GetTouch(0).position.y,
+                        0
+                    );
+                    Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
+                    curPosition.y = -4;
+                    curPosition.z = 0;
+                    // if (Mathf.Abs(curPosition.x) > 2.06f)
+                    //      return;
+                    transform.position = curPosition;
+                }
+            }
+        }
+        else if (TouchChecker.instance.player1Turn == 1)
         {
             if (TouchChecker.instance.isPlayer1)
             {

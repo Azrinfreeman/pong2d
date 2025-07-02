@@ -55,7 +55,7 @@ public class DetailPlayer : MonoBehaviour
             transformController.userCollection[transform.GetSiblingIndex()]
         );
 
-        if (PlayerPrefs.GetInt("PlayerTotal") > 1)
+        if (PlayerPrefs.GetInt("PlayerTotal") >= 1)
         {
             if (
                 PlayerPrefs.GetString(
@@ -227,6 +227,7 @@ public class DetailPlayer : MonoBehaviour
             }
 
             Debug.Log("refresh item111");
+
             transformController.ClearChildrenAndDismiss();
         }
 
@@ -235,6 +236,7 @@ public class DetailPlayer : MonoBehaviour
 
     public void DisplayDelete()
     {
+        PlayerPrefs.SetString("CurrentPlayer_", names.text);
         playerDelete.gameObject.SetActive(true);
     }
 

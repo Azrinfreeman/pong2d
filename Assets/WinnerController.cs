@@ -134,7 +134,7 @@ public class WinnerController : MonoBehaviour
                 form.AddField("PlayerName", PlayerPrefs.GetString("Player_" + noPlayerP1));
                 form.AddField("Playerid", PlayerPrefs.GetString("Playerid_" + noPlayerP1));
 
-                form.AddField("totalStars", PlayerPrefs.GetInt("PlayerScore_" + noPlayerP1));
+                form.AddField("totalStars", PlayerPrefs.GetInt("scorePlayer" + noPlayerP1));
                 form.AddField(
                     "totalRounds",
                     PlayerPrefs.GetInt(
@@ -189,7 +189,7 @@ public class WinnerController : MonoBehaviour
                 form2.AddField("PlayerName", PlayerPrefs.GetString("Player_" + noPlayerP2));
                 form2.AddField("Playerid", PlayerPrefs.GetString("Playerid_" + noPlayerP2));
 
-                form2.AddField("totalStars", PlayerPrefs.GetInt("PlayerScore_" + noPlayerP2));
+                form2.AddField("totalStars", PlayerPrefs.GetInt("scorePlayer" + noPlayerP2));
                 form2.AddField(
                     "totalRounds",
                     PlayerPrefs.GetInt(

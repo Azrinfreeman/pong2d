@@ -340,7 +340,9 @@ public class GameController : MonoBehaviour
             .transform.GetChild(1)
             .transform.GetChild(1)
             .GetComponent<TextMeshProUGUI>()
-            .text = "<color=red></color>";
+            .text = "";
+
+        yield return new WaitForSeconds(0.45f);
 
         if (questionCount >= maxQuestionCount)
         {

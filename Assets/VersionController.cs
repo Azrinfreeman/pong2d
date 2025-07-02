@@ -8,7 +8,7 @@ public class VersionController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<TextMeshProUGUI>().text = Application.version;
+        GetComponent<TextMeshProUGUI>().text = "v" + Application.version;
     }
 
     // Update is called once per frame

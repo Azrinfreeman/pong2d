@@ -53,19 +53,34 @@ public class MainMenu : PersistentSingleton<MainMenu>
 
     public void NewGame()
     {
+        StartCoroutine(loadNewGame());
+    }
+
+    IEnumerator loadNewGame()
+    {
+        GetComponent<Animator>().Play("NewGameClick");
+        yield return new WaitForSeconds(2f);
+
         Managers.Match.isAiMatch = false;
         Managers.Audio.PlayClickSound();
         Managers.Match.ResetSavedGame();
+        GameObject.Find("intro").GetComponent<AudioSource>().Stop();
 
         Managers.Game.SetState(typeof(KickOffState));
         Managers.UI.ActivateUI(Menus.INGAME);
+        GameObject.Find("UI").GetComponent<Animator>().Play("InGameStart");
     }
 
-    public void NewGameAI()
+    IEnumerator loadNewAiGame()
     {
+        GetComponent<Animator>().Play("NewGameClick");
+        yield return new WaitForSeconds(2f);
+
         Managers.Match.isAiMatch = true;
         Managers.Audio.PlayClickSound();
         Managers.Match.ResetSavedGame();
+        Managers.Audio.StopGameMusic();
+        GameObject.Find("intro").GetComponent<AudioSource>().Stop();
         Managers.UI.inGameUI.isReadyPlayerName2 = true;
         PlayerPrefs.SetString("player2", "Ali Bot");
         //adjust speed
@@ -77,6 +92,12 @@ public class MainMenu : PersistentSingleton<MainMenu>
         GameObject.Find("Player2").GetComponent<Paddle>().owner = PaddleOwner.AI;
         Managers.Game.SetState(typeof(KickOffState));
         Managers.UI.ActivateUI(Menus.INGAME);
+        GameObject.Find("UI").GetComponent<Animator>().Play("InGameStartAi");
+    }
+
+    public void NewGameAI()
+    {
+        StartCoroutine(loadNewAiGame());
     }
 
     public void Settings()
@@ -101,7 +122,7 @@ public class MainMenu : PersistentSingleton<MainMenu>
     IEnumerator quit()
     {
         transform.GetComponent<Animator>().Play("exitMainMenu");
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(1.2f);
 
         Application.Quit();
     }

@@ -17,9 +17,12 @@ public class TouchChecker : MonoBehaviour
     public int player1Turn;
     public int player2Turn;
 
+    public bool touchSwitch;
+
     // Start is called before the first frame update
     void Start()
     {
+        touchSwitch = false;
         player1Turn = 0;
         player2Turn = 0;
     }
