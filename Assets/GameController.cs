@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
         questionsNum = rnd3.Next(0, QuestionController.instance.questionsList.Count);
         answers = questionsNum;
 
-        questions = "PILIH HURUF...";
+        questions = "";
         questionTransform = transform
             .GetChild(0)
             .transform.GetChild(playerInt)
@@ -108,8 +108,7 @@ public class GameController : MonoBehaviour
             .transform.GetChild(0)
             .GetComponent<TextMeshProUGUI>();
         //   Debug.Log(questionTransform);
-        questionTransform.text =
-            questions + " " + QuestionController.instance.questionsList[answers].name;
+        questionTransform.text = questions + " ";
 
         //assign buttons in gameobject
 
@@ -425,25 +424,7 @@ public class GameController : MonoBehaviour
             .transform.GetChild(1)
             .GetComponent<TextMeshProUGUI>()
             .text = "<color=green>BETUL!</color>";
-        //collect stars and timer
-        /*
-                Debug.Log("stars2");
-                if (TimeToAnswer.instance.maxTime > 8)
-                {
-                    CollectionController.instance.addStars(10);
-                }
-                else if (TimeToAnswer.instance.maxTime > 4 && TimeToAnswer.instance.maxTime <= 8)
-                {
-                    int t3;
-                    t3 = (int)TimeToAnswer.instance.maxTime;
-                    CollectionController.instance.addStars(t3);
-                }
-                else if (TimeToAnswer.instance.maxTime > 0 && TimeToAnswer.instance.maxTime <= 4)
-                {
-                    CollectionController.instance.addStars(3);
-                }
-        */
-        //Collect the round count
+
         CollectionController.instance.addStars(5, playerInt);
         //CollectionController.instance.addRounds(playerInt, 1);
         //roundTransform.GetComponent<Animator>().Play("collected");
@@ -454,7 +435,15 @@ public class GameController : MonoBehaviour
                 {
                     GameObject.Find("collected").GetComponent<AudioSource>().Play();
                 }
-          */yield return new WaitForSeconds(0.25f);
+          */yield return new WaitForSeconds(0.35f);
+        transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(1)
+            .GetComponent<TextMeshProUGUI>()
+            .text = "<color=green></color>";
         //roundTransform.GetComponent<Animator>().Play("afterCollected");
 
         //destroy and remove the questions from the list
@@ -468,16 +457,10 @@ public class GameController : MonoBehaviour
         //Destroy(gameObject);
 
         yield return new WaitForSeconds(1f);
+
         questionNumberRN.text = questionNumberRNCount.ToString();
         //erased text again
-        transform
-            .GetChild(0)
-            .transform.GetChild(playerInt)
-            .transform.GetChild(0)
-            .transform.GetChild(1)
-            .transform.GetChild(1)
-            .GetComponent<TextMeshProUGUI>()
-            .text = "<color=green></color>";
+
         if (questionCount >= maxQuestionCount)
         {
             questionCount = 0;
