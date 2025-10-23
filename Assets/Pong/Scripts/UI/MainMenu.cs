@@ -85,7 +85,8 @@ public class MainMenu : PersistentSingleton<MainMenu>
         PlayerPrefs.SetString("player2", "Ali Bot");
         //adjust speed
 
-        GameObject.Find("Player2").GetComponent<Paddle>().speed = 1f;
+        GameObject.Find("Player2").GetComponent<Paddle>().speed = Constants.PADDLE_SPEED_FOR_AI;
+        ;
         //adjust flag button to not able to click
 
         Managers.UI.inGameUI.PlayerInputBtn2.gameObject.SetActive(false);

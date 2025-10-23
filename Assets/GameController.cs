@@ -307,6 +307,27 @@ public class GameController : MonoBehaviour
         //Time.timeScale = 0;
     }
 
+    public void disableTick()
+    {
+        transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(3)
+            .GetComponent<Transform>()
+            .gameObject.SetActive(false);
+
+        transform
+            .GetChild(0)
+            .transform.GetChild(playerInt)
+            .transform.GetChild(0)
+            .transform.GetChild(1)
+            .transform.GetChild(2)
+            .GetComponent<Transform>()
+            .gameObject.SetActive(false);
+    }
+
     IEnumerator incorrectAnswer()
     {
         questionNumberRNCount++;
@@ -321,25 +342,27 @@ public class GameController : MonoBehaviour
         {
             GameObject.Find("wrong").GetComponent<AudioSource>().Play();
         }
+        //display red tick
         transform
             .GetChild(0)
             .transform.GetChild(playerInt)
             .transform.GetChild(0)
             .transform.GetChild(1)
-            .transform.GetChild(1)
-            .GetComponent<TextMeshProUGUI>()
-            .text = "<color=red>SALAH!!</color>";
+            .transform.GetChild(3)
+            .GetComponent<Transform>()
+            .gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
         questionNumberRN.text = questionNumberRNCount.ToString();
+        //undisplay red tick
         transform
             .GetChild(0)
             .transform.GetChild(playerInt)
             .transform.GetChild(0)
             .transform.GetChild(1)
-            .transform.GetChild(1)
-            .GetComponent<TextMeshProUGUI>()
-            .text = "";
+            .transform.GetChild(3)
+            .GetComponent<Transform>()
+            .gameObject.SetActive(false);
 
         yield return new WaitForSeconds(0.45f);
 
@@ -416,14 +439,15 @@ public class GameController : MonoBehaviour
         {
             GameObject.Find("rewarded").GetComponent<AudioSource>().Play();
         }
+        //display tick
         transform
             .GetChild(0)
             .transform.GetChild(playerInt)
             .transform.GetChild(0)
             .transform.GetChild(1)
-            .transform.GetChild(1)
-            .GetComponent<TextMeshProUGUI>()
-            .text = "<color=green>BETUL!</color>";
+            .transform.GetChild(2)
+            .GetComponent<Transform>()
+            .gameObject.SetActive(true);
 
         CollectionController.instance.addStars(5, playerInt);
         //CollectionController.instance.addRounds(playerInt, 1);
@@ -436,14 +460,7 @@ public class GameController : MonoBehaviour
                     GameObject.Find("collected").GetComponent<AudioSource>().Play();
                 }
           */yield return new WaitForSeconds(0.35f);
-        transform
-            .GetChild(0)
-            .transform.GetChild(playerInt)
-            .transform.GetChild(0)
-            .transform.GetChild(1)
-            .transform.GetChild(1)
-            .GetComponent<TextMeshProUGUI>()
-            .text = "<color=green></color>";
+
         //roundTransform.GetComponent<Animator>().Play("afterCollected");
 
         //destroy and remove the questions from the list
@@ -463,6 +480,16 @@ public class GameController : MonoBehaviour
 
         if (questionCount >= maxQuestionCount)
         {
+            //undisplay tick
+            transform
+                .GetChild(0)
+                .transform.GetChild(playerInt)
+                .transform.GetChild(0)
+                .transform.GetChild(1)
+                .transform.GetChild(2)
+                .GetComponent<Transform>()
+                .gameObject.SetActive(false);
+
             questionCount = 0;
             hasTold = false;
             questionNumberRNCount = 1;
@@ -472,6 +499,16 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            //undisplay tick
+            transform
+                .GetChild(0)
+                .transform.GetChild(playerInt)
+                .transform.GetChild(0)
+                .transform.GetChild(1)
+                .transform.GetChild(2)
+                .GetComponent<Transform>()
+                .gameObject.SetActive(false);
+
             ShowQuestion(playerInt);
         }
     }

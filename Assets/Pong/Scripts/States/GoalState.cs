@@ -95,7 +95,8 @@ public class GoalState : _StatesBase
                     else
                     {
                         Managers.Game.SetState(typeof(KickOffState));
-                        GameObject.Find("Player2").GetComponent<Paddle>().speed = 1f;
+                        GameObject.Find("Player2").GetComponent<Paddle>().speed =
+                            Constants.PADDLE_SPEED_FOR_AI;
                     }
                     //
                 }
