@@ -1,4 +1,4 @@
-﻿//  /*********************************************************************************
+//  /*********************************************************************************
 //   *********************************************************************************
 //   *********************************************************************************
 //   * Produced by Skard Games										                  *
@@ -22,22 +22,65 @@ public class MatchManager : MonoBehaviour
 
     public bool isAiMatch;
 
+    [Header("UI Alignment")]
+    public Transform topWall;
+    public Transform bottomWall;
+    public float paddleHeightOffset = 0.6f;
+
     public void Reset()
     {
         ball.ResetBall();
 
-        playerPaddle.transform.position = Constants.PLAYER;
-        aiPaddle.transform.position = Constants.AI;
+        float topLimit = 2.36f;
+        float bottomLimit = -2.36f;
+
+        if (Camera.main != null)
+        {
+            if (topWall != null && bottomWall != null)
+            {
+                float y1 = topWall.position.y;
+                float y2 = bottomWall.position.y;
+                topLimit = Mathf.Max(y1, y2) - paddleHeightOffset;
+                bottomLimit = Mathf.Min(y1, y2) + paddleHeightOffset;
+                
+                if (topLimit < bottomLimit)
+                {
+                    float mid = (topLimit + bottomLimit) / 2f;
+                    topLimit = mid;
+                    bottomLimit = mid;
+                }
+            }
+            else
+            {
+                if (topWall != null) topLimit = topWall.position.y - paddleHeightOffset;
+                if (bottomWall != null) bottomLimit = bottomWall.position.y + paddleHeightOffset;
+            }
+        }
+
+        playerPaddle.transform.position = new Vector2(playerPaddle.transform.position.x, Constants.PLAYER.y);
+        aiPaddle.transform.position = new Vector2(aiPaddle.transform.position.x, Constants.AI.y);
         playerPaddle.transform.localScale = Constants.PADDLE_SCALE;
         aiPaddle.transform.localScale = Constants.PADDLE_SCALE;
-        playerPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
-        if (isAiMatch)
+
+        Paddle pPaddle = playerPaddle.GetComponent<Paddle>();
+        Paddle aPaddle = aiPaddle.GetComponent<Paddle>();
+
+        pPaddle.topLimit = topLimit;
+        pPaddle.bottomLimit = bottomLimit;
+        if (aPaddle != null)
         {
-            aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED_FOR_AI;
+            aPaddle.topLimit = topLimit;
+            aPaddle.bottomLimit = bottomLimit;
         }
-        else
+
+        pPaddle.speed = Constants.PADDLE_SPEED;
+        if (isAiMatch && aPaddle != null)
         {
-            aiPaddle.GetComponent<Paddle>().speed = Constants.PADDLE_SPEED;
+            aPaddle.speed = Constants.PADDLE_SPEED_FOR_AI;
+        }
+        else if (aPaddle != null)
+        {
+            aPaddle.speed = Constants.PADDLE_SPEED;
         }
     }
 
@@ -49,7 +92,7 @@ public class MatchManager : MonoBehaviour
         playerPaddle.transform.localScale = savedGame.playerScale;
         aiPaddle.transform.localScale = savedGame.aiScale;
 
-        ball.ballBody.velocity = savedGame.ballVelocity;
+        ball.ballBody.linearVelocity = savedGame.ballVelocity;
         playerPaddle.GetComponent<Paddle>().speed = savedGame.playerSpeed;
         aiPaddle.GetComponent<Paddle>().speed = savedGame.aiSpeed;
 
@@ -65,7 +108,7 @@ public class MatchManager : MonoBehaviour
         savedGame.playerScale = playerPaddle.transform.localScale;
         savedGame.aiScale = aiPaddle.transform.localScale;
 
-        savedGame.ballVelocity = ball.ballBody.velocity;
+        savedGame.ballVelocity = ball.ballBody.linearVelocity;
         savedGame.playerSpeed = playerPaddle.GetComponent<Paddle>().speed;
         savedGame.aiSpeed = aiPaddle.GetComponent<Paddle>().speed;
 
@@ -78,8 +121,8 @@ public class MatchManager : MonoBehaviour
     public void ResetSavedGame()
     {
         savedGame.ballVelocity = Vector2.zero;
-        savedGame.playerPosition = Constants.PLAYER;
-        savedGame.aiPosition = Constants.AI;
+        savedGame.playerPosition = new Vector2(playerPaddle.transform.position.x, Constants.PLAYER.y);
+        savedGame.aiPosition = new Vector2(aiPaddle.transform.position.x, Constants.AI.y);
         savedGame.aiScore = 0;
         savedGame.playerScore = 0;
     }

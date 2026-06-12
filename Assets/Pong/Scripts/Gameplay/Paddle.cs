@@ -1,10 +1,10 @@
-﻿//  /*********************************************************************************
+//  /*********************************************************************************
 //   *********************************************************************************
 //   *********************************************************************************
-//   * Produced by Skard Games										                  *
-//   * Facebook: https://goo.gl/5YSrKw											      *
-//   * Contact me: https://goo.gl/y5awt4								              *
-//   * Developed by Cavit Baturalp Gürdin: https://tr.linkedin.com/in/baturalpgurdin *
+//   * Produced by Skard Games                                                        *
+//   * Facebook: https://goo.gl/5YSrKw                                                *
+//   * Contact me: https://goo.gl/y5awt4                                              *
+//   * Developed by Cavit Baturalp Gürdin: https://tr.linkedin.com/in/baturalpgurdin  *
 //   *********************************************************************************
 //   *********************************************************************************
 //   *********************************************************************************/
@@ -36,9 +36,14 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public string currentTouchGameObject;
 
+    [Header("Movement Limits")]
+    public float topLimit = 2.36f;
+    public float bottomLimit = -2.36f;
+
     [HideInInspector]
     public Vector2 scale;
     int cnt = 0;
+
     #region Private Vars
     private Vector3 screenPoint;
     private Ball _ball;
@@ -64,12 +69,10 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         isClick = true;
-        // Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
 
         if (owner == PaddleOwner.PLAYER)
         {
             currentTouchGameObject = eventData.pointerCurrentRaycast.gameObject.name;
-            //  Debug.Log("paddle");
             TouchChecker.instance.isPlayer1 = true;
             if (TouchChecker.instance.player1Turn == 0 && TouchChecker.instance.player2Turn == 0)
             {
@@ -83,7 +86,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (owner == PaddleOwner.PLAYER2)
         {
             currentTouchGameObject = eventData.pointerCurrentRaycast.gameObject.name;
-            //            Debug.Log("paddle2");
             TouchChecker.instance.isPlayer2 = true;
             if (TouchChecker.instance.player1Turn == 0 && TouchChecker.instance.player2Turn == 0)
             {
@@ -117,8 +119,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
 
     public void OnPointerUp(PointerEventData eventData)
-    { //stop touching
-        // 1 dan 2
+    {
         if (Input.touchCount == 1)
         {
             if (owner == PaddleOwner.PLAYER)
@@ -133,7 +134,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 0
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -142,7 +142,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 0
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -151,7 +150,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 1
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -160,7 +158,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 2
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -169,18 +166,15 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 1
                 )
                 {
-                    Debug.Log("p2 = 1, p1 =2 fix");
                     TouchChecker.instance.player1Turn = 1;
                     TouchChecker.instance.player2Turn = 2;
                 }
                 else if (TouchChecker.instance.player1Turn == 1)
                 {
-                    Debug.Log("player 2 untouch");
                     TouchChecker.instance.player2Turn = 0;
                 }
                 else if (TouchChecker.instance.player2Turn == 1)
                 {
-                    Debug.Log("player 1 untouch");
                     TouchChecker.instance.player1Turn = 0;
                 }
             }
@@ -194,7 +188,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 1
                 )
                 {
-                    Debug.Log("p1 = 0, p2 =1");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -203,7 +196,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 1
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -212,25 +204,21 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 2
                 )
                 {
-                    Debug.Log("p1 = 1, p2 = 2");
                     TouchChecker.instance.player1Turn = 2;
                     TouchChecker.instance.player2Turn = 1;
                 }
                 else if (TouchChecker.instance.player1Turn == 1)
                 {
-                    Debug.Log("player 2 untouch");
                     TouchChecker.instance.player2Turn = 0;
                 }
                 else if (TouchChecker.instance.player2Turn == 1)
                 {
-                    Debug.Log("player 1 untouch");
                     TouchChecker.instance.player1Turn = 0;
                 }
             }
         }
         else if (Input.touchCount == 2)
         {
-            Debug.Log("touch 2 gix");
             if (owner == PaddleOwner.PLAYER)
             {
                 if (
@@ -238,7 +226,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 2
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 2;
                     TouchChecker.instance.player2Turn = 1;
                     TouchChecker.instance.touchSwitch = true;
@@ -252,7 +239,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 1
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 1;
                     TouchChecker.instance.player2Turn = 2;
                     TouchChecker.instance.touchSwitch = true;
@@ -261,7 +247,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         else if (Input.touchCount == 0)
         {
-            Debug.Log("touch 0 gix");
             if (owner == PaddleOwner.PLAYER)
             {
                 if (
@@ -269,7 +254,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 2
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -282,7 +266,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     && TouchChecker.instance.player2Turn == 1
                 )
                 {
-                    Debug.Log("1 and 2 untouch");
                     TouchChecker.instance.player1Turn = 0;
                     TouchChecker.instance.player2Turn = 0;
                 }
@@ -296,7 +279,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         isClick = false;
         if (owner == PaddleOwner.PLAYER)
         {
-            Debug.Log("paddleUp");
             TouchChecker.instance.isPlayer1 = false;
             if (TouchChecker.instance.player1Turn > 0 && TouchChecker.instance.player2Turn > 0)
             {
@@ -310,7 +292,6 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         if (owner == PaddleOwner.PLAYER2)
         {
-            Debug.Log("paddleUp2");
             TouchChecker.instance.isPlayer2 = false;
             if (TouchChecker.instance.player1Turn > 0 && TouchChecker.instance.player2Turn > 0)
             {
@@ -336,26 +317,20 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 Debug.Log(hit.transform.gameObject.name);
             }
         }
-        // p1.text = TouchChecker.instance.player1Turn.ToString();
-        //p2.text = TouchChecker.instance.player2Turn.ToString();
-        //countTouch.text = Input.touchCount.ToString();
-        // countTouch.text = Input.touchCount.ToString();
+
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began) { }
-
             if (Input.GetTouch(0).phase == TouchPhase.Moved) { }
-
-            if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                //Debug.Log("touch endede");
-            }
+            if (Input.GetTouch(0).phase == TouchPhase.Ended) { }
         }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             cnt++;
             ScreenCapture.CaptureScreenshot(cnt.ToString() + ".png");
         }
+
         if (owner == PaddleOwner.PLAYER)
         {
             if (Managers.Input.isActive)
@@ -378,7 +353,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void KeyboardInput()
     {
-        float direction = Input.GetAxisRaw("Horizontal");
+        float direction = Input.GetAxisRaw("Vertical"); // Changed to Vertical for UP/DOWN
         CheckMovementBlock(direction);
     }
 
@@ -388,46 +363,15 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         if (Input.GetMouseButton(0))
         {
-            direction = (Input.mousePosition.x > Screen.width / 2) ? 1 : -1;
+            direction = (Input.mousePosition.y > Screen.height / 2) ? 1 : -1; // Adjusted for Up/Down halves
         }
         CheckMovementBlock(direction);
     }
 
     void DragInput()
     {
-        /*
-        if (TouchChecker.instance.isPlayer1)
-        {
-            Vector3 curScreenPoint = new Vector3(
-                Input.GetTouch(0).position.x,
-                Input.GetTouch(0).position.y,
-                0
-            );
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-            curPosition.y = -4;
-            curPosition.z = 0;
-            // if (Mathf.Abs(curPosition.x) > 2.06f)
-            //      return;
-            transform.position = curPosition;
-        }
-        if (TouchChecker.instance.isPlayer2)
-        {
-            Vector3 curScreenPoint = new Vector3(
-                Input.GetTouch(1).position.x,
-                Input.GetTouch(1).position.y,
-                0
-            );
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-            curPosition.y = -4;
-            curPosition.z = 0;
-            //if (Mathf.Abs(curPosition.x) > 2.06f)
-            //  return;
-            transform.position = curPosition;
-        }
-        */
         if (TouchChecker.instance.touchSwitch)
         {
-            Debug.Log("touchswitch draag input");
             if (TouchChecker.instance.player1Turn == 1 && TouchChecker.instance.player1Turn == 1)
             {
                 if (TouchChecker.instance.isPlayer1)
@@ -438,11 +382,10 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                         0
                     );
                     Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-                    curPosition.y = -4;
+
+                    curPosition.x = transform.position.x;
                     curPosition.z = 0;
-                    // if (Mathf.Abs(curPosition.x) > 2.06f)
-                    //      return;
-                    transform.position = curPosition;
+                    _rigidBody.MovePosition(curPosition); // Fixed here
                 }
             }
         }
@@ -456,11 +399,11 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     0
                 );
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-                curPosition.y = -4;
+
+                curPosition.x = transform.position.x;
+                curPosition.y = Mathf.Clamp(curPosition.y, bottomLimit, topLimit);
                 curPosition.z = 0;
-                // if (Mathf.Abs(curPosition.x) > 2.06f)
-                //      return;
-                transform.position = curPosition;
+                _rigidBody.MovePosition(curPosition); // Fixed here
             }
         }
         else if (TouchChecker.instance.player1Turn == 2)
@@ -473,11 +416,11 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     0
                 );
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-                curPosition.y = -4;
+
+                curPosition.x = transform.position.x;
+                curPosition.y = Mathf.Clamp(curPosition.y, bottomLimit, topLimit);
                 curPosition.z = 0;
-                // if (Mathf.Abs(curPosition.x) > 2.06f)
-                //      return;
-                transform.position = curPosition;
+                _rigidBody.MovePosition(curPosition); // Fixed here
             }
         }
     }
@@ -494,11 +437,11 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     0
                 );
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-                curPosition.y = 4;
+
+                curPosition.x = transform.position.x;
+                curPosition.y = Mathf.Clamp(curPosition.y, bottomLimit, topLimit);
                 curPosition.z = 0;
-                //if (Mathf.Abs(curPosition.x) > 2.06f)
-                //  return;
-                transform.position = curPosition;
+                _rigidBody.MovePosition(curPosition); // Fixed here
             }
         }
         else if (TouchChecker.instance.player2Turn == 2)
@@ -509,15 +452,13 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 0
             );
             Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-            curPosition.y = 4;
+
+            curPosition.x = transform.position.x;
             curPosition.z = 0;
-            //if (Mathf.Abs(curPosition.x) > 2.06f)
-            //  return;
-            transform.position = curPosition;
+            _rigidBody.MovePosition(curPosition); // Fixed here
         }
         else if (TouchChecker.instance.player2Turn == 1 && TouchChecker.instance.player1Turn == 2)
         {
-            Debug.Log("player 2 touch while 1 "); //then use tgouch 1
             if (TouchChecker.instance.isPlayer1)
             {
                 Vector3 curScreenPoint = new Vector3(
@@ -526,11 +467,11 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     0
                 );
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-                curPosition.y = 4;
+
+                curPosition.x = transform.position.x;
+                curPosition.y = Mathf.Clamp(curPosition.y, bottomLimit, topLimit);
                 curPosition.z = 0;
-                // if (Mathf.Abs(curPosition.x) > 2.06f)
-                //    return;
-                transform.position = curPosition;
+                _rigidBody.MovePosition(curPosition); // Fixed here
             }
 
             if (TouchChecker.instance.isPlayer2)
@@ -541,24 +482,22 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     0
                 );
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-                curPosition.y = 4;
+
+                curPosition.x = transform.position.x;
+                curPosition.y = Mathf.Clamp(curPosition.y, bottomLimit, topLimit);
                 curPosition.z = 0;
-                // if (Mathf.Abs(curPosition.x) > 2.06f)
-                //     return;
-                transform.position = curPosition;
+                _rigidBody.MovePosition(curPosition); // Fixed here
             }
         }
     }
 
     void CheckMovementBlock(float dir)
     {
-        float nextFramePosX = Mathf.Abs(
-            (new Vector2(dir, 0) * speed * Time.deltaTime).x + transform.position.x
-        );
+        float nextFramePosY = (new Vector2(0, dir) * speed * Time.deltaTime).y + transform.position.y;
 
-        if (nextFramePosX < 2.36)
+        if (nextFramePosY < topLimit && nextFramePosY > bottomLimit)
         {
-            transform.Translate(new Vector2(dir, 0) * speed * Time.deltaTime);
+            transform.Translate(new Vector2(0, dir) * speed * Time.deltaTime);
         }
     }
 
@@ -586,28 +525,48 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void AIControl()
     {
-        if (Mathf.Sign(transform.position.y) == Mathf.Sign(_ball.ballBody.velocity.y))
+        // Clamp position if it exceeds limits
+        if (transform.position.y > topLimit)
         {
-            if (_ball.transform.position.x > transform.position.x + 0.410f)
-            {
-                if (_rigidBody.velocity.x < 0)
-                    _rigidBody.velocity = Vector2.zero;
+            transform.position = new Vector3(transform.position.x, topLimit, transform.position.z);
+            _rigidBody.linearVelocity = Vector2.zero;
+        }
+        else if (transform.position.y < bottomLimit)
+        {
+            transform.position = new Vector3(transform.position.x, bottomLimit, transform.position.z);
+            _rigidBody.linearVelocity = Vector2.zero;
+        }
 
-                _rigidBody.velocity = Vector2.right * speed;
+        // Ensure AI only tracks when ball is moving towards its side (evaluating X instead of Y)
+        if (Mathf.Sign(transform.position.x) == Mathf.Sign(_ball.ballBody.linearVelocity.x))
+        {
+            // Track the ball's Y position to move up and down
+            if (_ball.transform.position.y > transform.position.y + 0.410f)
+            {
+                if (_rigidBody.linearVelocity.y < 0)
+                    _rigidBody.linearVelocity = Vector2.zero;
+
+                if (transform.position.y < topLimit)
+                    _rigidBody.linearVelocity = Vector2.up * speed;
+                else
+                    _rigidBody.linearVelocity = Vector2.zero;
             }
-            else if (_ball.transform.position.x < transform.position.x - 0.410f)
+            else if (_ball.transform.position.y < transform.position.y - 0.410f)
             {
-                if (_rigidBody.velocity.x > 0)
-                    _rigidBody.velocity = Vector2.zero;
+                if (_rigidBody.linearVelocity.y > 0)
+                    _rigidBody.linearVelocity = Vector2.zero;
 
-                _rigidBody.velocity = Vector2.left * speed;
+                if (transform.position.y > bottomLimit)
+                    _rigidBody.linearVelocity = Vector2.down * speed;
+                else
+                    _rigidBody.linearVelocity = Vector2.zero;
             }
             else
             {
-                _rigidBody.velocity = Vector2.zero;
+                _rigidBody.linearVelocity = Vector2.zero;
             }
         }
         else
-            _rigidBody.velocity = Vector2.zero;
+            _rigidBody.linearVelocity = Vector2.zero;
     }
 }

@@ -1,15 +1,4 @@
-﻿//  /*********************************************************************************
-//   *********************************************************************************
-//   *********************************************************************************
-//   * Produced by Skard Games										                  *
-//   * Facebook: https://goo.gl/5YSrKw											      *
-//   * Contact me: https://goo.gl/y5awt4								              *
-//   * Developed by Cavit Baturalp Gürdin: https://tr.linkedin.com/in/baturalpgurdin *
-//   *********************************************************************************
-//   *********************************************************************************
-//   *********************************************************************************/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -41,19 +30,18 @@ public class Ball : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("PADDLE"))
         {
-            Debug.Log("out of paddle");
             other.gameObject.GetComponent<Paddle>().ResetPuddleAnim1();
-            //other.gameObject.GetComponent<Animator>().Play("pud_idle");
         }
         else if (other.gameObject.tag.Equals("PADDLE2"))
         {
-            Debug.Log("out of paddle");
             other.gameObject.GetComponent<Paddle>().ResetPuddleAnim2();
         }
     }
 
     IEnumerator blinking()
     {
+        // Note: You may want to rename "goalUp" and "goalDown" in your Unity scene
+        // to "goalLeft" and "goalRight", and update them here as well!
         if (paddle == 1)
         {
             yield return new WaitForSeconds(0.5f);
@@ -77,10 +65,8 @@ public class Ball : MonoBehaviour
                     alarm.alarms[1].gameObject.SetActive(false);
                     toggle = false;
                 }
-
                 yield return new WaitForSeconds(0.5f);
             }
-            Debug.Log("down");
         }
         else
         {
@@ -89,6 +75,7 @@ public class Ball : MonoBehaviour
                 .Find("goalDown")
                 .transform.GetChild(1)
                 .GetComponent<AlarmController>();
+
             bool toggle = false;
             for (int i = 0; i < 6; i++)
             {
@@ -104,11 +91,8 @@ public class Ball : MonoBehaviour
                     alarm.alarms[1].gameObject.SetActive(false);
                     toggle = false;
                 }
-
                 yield return new WaitForSeconds(0.5f);
             }
-
-            Debug.Log("up");
         }
     }
 
@@ -118,15 +102,18 @@ public class Ball : MonoBehaviour
         Managers.Audio.PlayCollisionSound();
         StartCoroutine(Managers.Cam.shaker.Shake());
 
-        if (other.gameObject.name.Equals("BottomWall"))
+        // Note: If you renamed your walls in Unity to LeftWall and RightWall,
+        // change the names here to match!
+        if (other.gameObject.name.Equals("BottomWall") || other.gameObject.name.Equals("LeftWall"))
         {
             paddle = 1;
             Managers.Score.OnScore(PaddleOwner.PLAYER);
             StartCoroutine(blinking());
         }
-        else if (other.gameObject.name.Equals("TopWall"))
+        else if (
+            other.gameObject.name.Equals("TopWall") || other.gameObject.name.Equals("RightWall")
+        )
         {
-            Debug.Log("ai score added");
             paddle = 2;
             Managers.Score.OnScore(PaddleOwner.PLAYER2);
             StartCoroutine(blinking());
@@ -134,33 +121,39 @@ public class Ball : MonoBehaviour
         else if (other.gameObject.CompareTag("PADDLE"))
         {
             other.gameObject.GetComponent<Animator>().Play("pud_touch1");
-            Vector2 velocity = ballBody.velocity;
+            Vector2 velocity = ballBody.linearVelocity;
 
-            float x = HitFactor(
+            // CHANGED FOR HORIZONTAL: Measure Y distance using the paddle's height
+            float y = HitFactor(
                 transform.position,
                 other.transform.position,
-                other.collider.bounds.size.x
+                other.collider.bounds.size.y
             );
-            int temp = 0;
-            temp = (other.transform.position.y > 1) ? -1 : 1;
-            Vector2 dir = new Vector2(x, temp).normalized;
-            ballBody.velocity = dir * velocity.magnitude * speedMultiplier;
+
+            // CHANGED FOR HORIZONTAL: Bounce left (-1) or right (1) depending on paddle's X position
+            int temp = (other.transform.position.x > 0) ? -1 : 1;
+
+            // Apply bounce direction (X is left/right power, Y is the angle off the paddle)
+            Vector2 dir = new Vector2(temp, y).normalized;
+            ballBody.linearVelocity = dir * velocity.magnitude * speedMultiplier;
             lastTouchedPaddle = other.gameObject.GetComponent<Paddle>();
         }
         else if (other.gameObject.CompareTag("PADDLE2"))
         {
             other.gameObject.GetComponent<Animator>().Play("pud_touch");
-            Vector2 velocity = ballBody.velocity;
+            Vector2 velocity = ballBody.linearVelocity;
 
-            float x = HitFactor(
+            // CHANGED FOR HORIZONTAL
+            float y = HitFactor(
                 transform.position,
                 other.transform.position,
-                other.collider.bounds.size.x
+                other.collider.bounds.size.y
             );
-            int temp = 0;
-            temp = (other.transform.position.y > 1) ? -1 : 1;
-            Vector2 dir = new Vector2(x, temp).normalized;
-            ballBody.velocity = dir * velocity.magnitude * speedMultiplier;
+
+            // CHANGED FOR HORIZONTAL
+            int temp = (other.transform.position.x > 0) ? -1 : 1;
+            Vector2 dir = new Vector2(temp, y).normalized;
+            ballBody.linearVelocity = dir * velocity.magnitude * speedMultiplier;
             lastTouchedPaddle = other.gameObject.GetComponent<Paddle>();
         }
     }
@@ -176,29 +169,36 @@ public class Ball : MonoBehaviour
         GetComponent<Animator>().Play("ball_moving");
         ballBody.angularVelocity = 0.0f;
 
-        float r = Random.value;
-        Vector2 _direction = (r >= 0.5f) ? new Vector2(r, 1) : new Vector2(r, -1);
+        // CHANGED FOR HORIZONTAL: Give it a random slight angle on Y, but shoot it strongly Left or Right (X)
+        float randomY = Random.Range(-0.5f, 0.5f);
+        Vector2 _direction =
+            (Random.value >= 0.5f) ? new Vector2(1, randomY) : new Vector2(-1, randomY);
 
-        ballBody.AddForce(_direction * speed);
+        ballBody.AddForce(_direction.normalized * speed);
         particle.gameObject.SetActive(true);
     }
 
     public void ResetBall()
     {
         GetComponent<Animator>().Play("idle");
-        ballBody.velocity = Vector2.zero;
+        ballBody.linearVelocity = Vector2.zero;
         transform.position = Vector2.zero;
         particle.gameObject.SetActive(false);
     }
 
-    float HitFactor(Vector2 ballPosition, Vector2 paddlePosition, float paddleWidth)
+    // CHANGED FOR HORIZONTAL: Evaluates difference on the Y axis instead of X
+    float HitFactor(Vector2 ballPosition, Vector2 paddlePosition, float paddleHeight)
     {
-        return (ballPosition.x - paddlePosition.x) / paddleWidth;
+        return (ballPosition.y - paddlePosition.y) / paddleHeight;
     }
 
     public void ParticleRotation()
     {
-        Vector3 directionOfMotion = new Vector3(0, ballBody.velocity.y, ballBody.velocity.x);
+        Vector3 directionOfMotion = new Vector3(
+            0,
+            ballBody.linearVelocity.y,
+            ballBody.linearVelocity.x
+        );
         Quaternion rotation = Quaternion.LookRotation(directionOfMotion);
         particle.transform.localRotation = rotation;
     }

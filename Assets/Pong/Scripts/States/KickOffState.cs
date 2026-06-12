@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text.RegularExpressions;
 using DG.Tweening;
 using UnityEngine;
@@ -24,13 +24,16 @@ public class KickOffState : _StatesBase
             Managers.Match.Reset();
         else
         {
-            _ballVelocity = Managers.Match.ball.ballBody.velocity;
-            Managers.Match.ball.ballBody.velocity = Vector2.zero;
+            _ballVelocity = Managers.Match.ball.ballBody.linearVelocity;
+            Managers.Match.ball.ballBody.linearVelocity = Vector2.zero;
         }
 
-        //CountDown();
-
         Managers.UI.inGameUI.playerPanel.gameObject.SetActive(true);
+        if (Managers.Match.isAiMatch)
+        {
+            Managers.UI.inGameUI.PlayerInputBtn2.gameObject.SetActive(false);
+        }
+
         Managers.UI.inGameUI.PlayButton.GetComponent<Transform>().gameObject.SetActive(true);
         Managers.UI.inGameUI.PlayButton.GetComponent<Button>().onClick.RemoveAllListeners();
         Managers
@@ -78,8 +81,10 @@ public class KickOffState : _StatesBase
 
     public void CountDown()
     {
+        Managers.UI.inGameUI.PlayButton.gameObject.SetActive(false);
         Managers.UI.inGameUI.info.enabled = true;
-        Color initColor = Managers.UI.inGameUI.info.color;
+        Managers.UI.inGameUI.info.color = Managers.UI.inGameUI.infoInitColor;
+        Color initColor = Managers.UI.inGameUI.infoInitColor;
         Managers.UI.inGameUI.score.enabled = false;
         DOTween
             .To(
@@ -93,16 +98,18 @@ public class KickOffState : _StatesBase
             {
                 if (countdown > 1)
                 {
-                    if (!GameObject.Find("countdown").GetComponent<AudioSource>().isPlaying)
+                    GameObject countdownAudio = GameObject.Find("countdown");
+                    if (countdownAudio != null && !countdownAudio.GetComponent<AudioSource>().isPlaying)
                     {
-                        GameObject.Find("countdown").GetComponent<AudioSource>().Play();
+                        countdownAudio.GetComponent<AudioSource>().Play();
                     }
                 }
                 else
                 {
-                    if (!GameObject.Find("goal").GetComponent<AudioSource>().isPlaying)
+                    GameObject goalAudio = GameObject.Find("goal");
+                    if (goalAudio != null && !goalAudio.GetComponent<AudioSource>().isPlaying)
                     {
-                        GameObject.Find("goal").GetComponent<AudioSource>().Play();
+                        goalAudio.GetComponent<AudioSource>().Play();
                     }
                 }
                 countdown--;
@@ -117,7 +124,7 @@ public class KickOffState : _StatesBase
                 Managers.Audio.PlayClickSound();
                 Managers.UI.inGameUI.score.enabled = true;
                 Managers.PowUps.canSpawnPowerup = true;
-                Managers.Match.ball.ballBody.velocity = _ballVelocity;
+                Managers.Match.ball.ballBody.linearVelocity = _ballVelocity;
                 StartCoroutine(Managers.PowUps.SpawnPowerup());
             });
     }
