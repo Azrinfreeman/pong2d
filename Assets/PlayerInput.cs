@@ -17,11 +17,18 @@ public class PlayerInput : MonoBehaviour
     {
         if (GameObject.Find("Player2").GetComponent<Paddle>().owner == PaddleOwner.AI)
         {
-            GameObject
-                .Find("PlayerName2")
-                .transform.GetChild(0)
-                .GetComponent<TextMeshProUGUI>()
-                .text = "Ali Bot";
+            GameObject playerName2 = GameObject.Find("PlayerName2");
+            if (playerName2 != null)
+            {
+                playerName2.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Ali Bot";
+                
+                // If this script is attached to player 2's input, automatically show the name display
+                if (playerInt == 1 && PlayerNameBtn != null)
+                {
+                    PlayerNameBtn.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
+                    transform.gameObject.SetActive(false);
+                }
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-﻿//  /*********************************************************************************
+//  /*********************************************************************************
 //   *********************************************************************************
 //   *********************************************************************************
 //   * Produced by Skard Games										                 *
@@ -90,6 +90,14 @@ public class MainMenu : PersistentSingleton<MainMenu>
         //adjust flag button to not able to click
 
         Managers.UI.inGameUI.PlayerInputBtn2.gameObject.SetActive(false);
+        
+        PlayerInput p2Input = Managers.UI.inGameUI.PlayerInputBtn2.GetComponent<PlayerInput>();
+        if (p2Input != null && p2Input.PlayerNameBtn != null)
+        {
+            p2Input.PlayerNameBtn.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
+            p2Input.textNameDisplay.text = "Ali Bot";
+        }
+
         GameObject.Find("Player2").GetComponent<Paddle>().owner = PaddleOwner.AI;
         Managers.Game.SetState(typeof(KickOffState));
         Managers.UI.ActivateUI(Menus.INGAME);

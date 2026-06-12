@@ -368,6 +368,15 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         CheckMovementBlock(direction);
     }
 
+    Vector3 GetInputPositionSafe(int touchIndex)
+    {
+        if (Input.touchCount > touchIndex)
+        {
+            return new Vector3(Input.GetTouch(touchIndex).position.x, Input.GetTouch(touchIndex).position.y, 0);
+        }
+        return new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+    }
+
     void DragInput()
     {
         if (TouchChecker.instance.touchSwitch)
@@ -376,11 +385,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 if (TouchChecker.instance.isPlayer1)
                 {
-                    Vector3 curScreenPoint = new Vector3(
-                        Input.GetTouch(0).position.x,
-                        Input.GetTouch(0).position.y,
-                        0
-                    );
+                    Vector3 curScreenPoint = GetInputPositionSafe(0);
                     Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
                     curPosition.x = transform.position.x;
@@ -393,11 +398,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (TouchChecker.instance.isPlayer1)
             {
-                Vector3 curScreenPoint = new Vector3(
-                    Input.GetTouch(0).position.x,
-                    Input.GetTouch(0).position.y,
-                    0
-                );
+                Vector3 curScreenPoint = GetInputPositionSafe(0);
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
                 curPosition.x = transform.position.x;
@@ -410,11 +411,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (TouchChecker.instance.isPlayer1 && TouchChecker.instance.isPlayer2)
             {
-                Vector3 curScreenPoint = new Vector3(
-                    Input.GetTouch(1).position.x,
-                    Input.GetTouch(1).position.y,
-                    0
-                );
+                Vector3 curScreenPoint = GetInputPositionSafe(1);
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
                 curPosition.x = transform.position.x;
@@ -431,11 +428,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (TouchChecker.instance.isPlayer2)
             {
-                Vector3 curScreenPoint = new Vector3(
-                    Input.GetTouch(0).position.x,
-                    Input.GetTouch(0).position.y,
-                    0
-                );
+                Vector3 curScreenPoint = GetInputPositionSafe(0);
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
                 curPosition.x = transform.position.x;
@@ -446,11 +439,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         else if (TouchChecker.instance.player2Turn == 2)
         {
-            Vector3 curScreenPoint = new Vector3(
-                Input.GetTouch(1).position.x,
-                Input.GetTouch(1).position.y,
-                0
-            );
+            Vector3 curScreenPoint = GetInputPositionSafe(1);
             Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
             curPosition.x = transform.position.x;
@@ -461,11 +450,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (TouchChecker.instance.isPlayer1)
             {
-                Vector3 curScreenPoint = new Vector3(
-                    Input.GetTouch(1).position.x,
-                    Input.GetTouch(1).position.y,
-                    0
-                );
+                Vector3 curScreenPoint = GetInputPositionSafe(1);
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
                 curPosition.x = transform.position.x;
@@ -476,11 +461,7 @@ public class Paddle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
             if (TouchChecker.instance.isPlayer2)
             {
-                Vector3 curScreenPoint = new Vector3(
-                    Input.GetTouch(0).position.x,
-                    Input.GetTouch(0).position.y,
-                    0
-                );
+                Vector3 curScreenPoint = GetInputPositionSafe(0);
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 
                 curPosition.x = transform.position.x;
